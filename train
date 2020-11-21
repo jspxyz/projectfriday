@@ -1,2 +1,7 @@
+'''
+- runs update file
+- then trains
+'''
+
 sh update
 python test.py
