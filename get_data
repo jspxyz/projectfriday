@@ -1,0 +1,25 @@
+pip install kaggle
+
+# json file work in VM
+# do not need this in local
+# mkdir ~/.kaggle
+
+# pulls json file from storage to store in VM
+# gsutil cp gs://projectfriday/kaggle.json ~/.kaggle/kaggle.json
+
+# makes the file secret
+# chmod 600 ~/.kaggle/kaggle.json
+
+# create directories
+mkdir data
+mkdir data/cremad
+mkdir data/ravdess
+mkdir data/savee
+mkdir data/tess
+
+# download and unzip datasets
+kaggle datasets download -d ejlok1/cremad -p ./data/cremad --unzip
+kaggle datasets download -d uwrfkaggler/ravdess-emotional-speech-audio -p ./data/ravdess --unzip
+kaggle datasets download -d ejlok1/surrey-audiovisual-expressed-emotion-savee -p ./data/savee --unzip
+kaggle datasets download -d ejlok1/toronto-emotional-speech-set-tess -p ./data/tess --unzip
+
