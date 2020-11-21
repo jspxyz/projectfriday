@@ -1,3 +1,4 @@
-from models.model_a import *
+from models import *
 
-model_a()
+model_a.test()
+model_b.test()

@@ -1,2 +1,2 @@
-def model_a():
+def test():
     print("Model a")
