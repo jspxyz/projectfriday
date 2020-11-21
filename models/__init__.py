@@ -1,2 +1,2 @@
-import model_a
-import model_b
+from .model_a import *
+from .model_b import *
