@@ -1,7 +1,5 @@
-'''
-- runs update file
-- then trains
-'''
+# runs update file
+# then trains
 
 sh update
 python test.py

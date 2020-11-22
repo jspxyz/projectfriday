@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import random
+import seaborn as sns
 
 #########################
 # Augmentation methods  #

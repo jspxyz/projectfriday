@@ -1,5 +1,3 @@
-'''
-updates any requirement files
-'''
+# updates any requirement files
 
 pip freeze > requirements.txt

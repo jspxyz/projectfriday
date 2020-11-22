@@ -1,8 +1,6 @@
-'''
-- to run in the VM
-- git pulls from repo
-- installs requirements
-'''
+# to run in the VM
+# git pulls from repo
+# installs requirements
 
 git pull
 pip install -r requirements.txt --user
