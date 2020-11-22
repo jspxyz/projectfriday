@@ -1,3 +1,9 @@
+import librosa
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import random
+
 #########################
 # Augmentation methods  #
 #########################
@@ -34,7 +40,8 @@ def pitch(data, sample_rate):
     pitch_pm = 2
     pitch_change =  pitch_pm * 2*(np.random.uniform())   
     data = librosa.effects.pitch_shift(data.astype('float64'), 
-                                      sample_rate, n_steps=pitch_change, 
+                                      sample_rate,
+                                      n_steps=pitch_change, 
                                       bins_per_octave=bins_per_octave)
     return data
     
