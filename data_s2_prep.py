@@ -6,7 +6,7 @@ import pandas as pd
 from tqdm import tqdm
 
 # calling functions
-from functions import *
+from functions import noise
 
 # assigning csv
 ref = pd.read_csv('./Data_path.csv')
@@ -20,41 +20,43 @@ cnt = 0
 
 # loop feature extraction over the entire dataset
 for i in tqdm(ref.path):
-    
+    try:
     # first load the audio 
-    X, sample_rate = librosa.load(i,
-                                  res_type='kaiser_fast',
-                                  duration=2.5,
-                                  sr=44100,
-                                  offset=0.5)
+        X, sample_rate = librosa.load(i,
+                                    res_type='kaiser_fast',
+                                    duration=2.5,
+                                    sr=44100,
+                                    offset=0.5)
 
-    # take mfcc and mean as the feature. Could do min and max etc as well. 
-    mfccs = np.mean(librosa.feature.mfcc(y=X, 
+        # take mfcc and mean as the feature. Could do min and max etc as well. 
+        mfccs = np.mean(librosa.feature.mfcc(y=X, 
+                                            sr=np.array(sample_rate), 
+                                            n_mfcc=13),
+                                            axis=0)
+        
+        df.loc[cnt] = [mfccs]   
+
+        # random shifting (omit for now)
+        # Stretch
+        # pitch (omit for now)
+        # dyn change
+        
+        # noise 
+        aug = noise(X)
+        aug = np.mean(librosa.feature.mfcc(y=aug, 
                                         sr=np.array(sample_rate), 
-                                        n_mfcc=13),
-                    axis=0)
-    
-    df.loc[cnt] = [mfccs]   
+                                        n_mfcc=13),    
+                                        axis=0)
+        df_noise.loc[cnt] = [aug]
 
-    # random shifting (omit for now)
-    # Stretch
-    # pitch (omit for now)
-    # dyn change
-    
-    # noise 
-    aug = noise(X)
-    aug = np.mean(librosa.feature.mfcc(y=aug, 
-                                    sr=np.array(sample_rate), 
-                                    n_mfcc=13),    
-                  axis=0)
-    df_noise.loc[cnt] = [aug]
+        # speed pitch
+        # aug = speedNpitch(X)
+        # aug = np.mean(librosa.feature.mfcc(y=aug, 
+        #                                 sr=np.array(sample_rate), 
+        #                                 n_mfcc=13),    
+        #               axis=0)
+        # df_speedpitch.loc[cnt] = [aug]   
 
-    # speed pitch
-    # aug = speedNpitch(X)
-    # aug = np.mean(librosa.feature.mfcc(y=aug, 
-    #                                 sr=np.array(sample_rate), 
-    #                                 n_mfcc=13),    
-    #               axis=0)
-    # df_speedpitch.loc[cnt] = [aug]   
-
-    cnt += 1
+        cnt += 1
+    except Exception as err:
+        print('Error in processing', err)
