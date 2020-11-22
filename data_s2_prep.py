@@ -5,6 +5,9 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
+# calling functions
+from functions import *
+
 # assigning csv
 ref = pd.read_csv('./Data_path.csv')
 
