@@ -279,3 +279,9 @@ TESS_df = pd.concat([TESS_df,pd.DataFrame(path_tess, columns = ['path'])],axis=1
 # print(TESS_df.sample(10))
 
 ## TESS Dataframe end ##
+
+## combine dataframes
+df = pd.concat([SAVEE_df, RAV_df, TESS_df, CREMA_df], axis = 0)
+# print(df.label_polarity.value_counts())
+# df.head()
+df.to_csv("Data_path.csv",index=False)
