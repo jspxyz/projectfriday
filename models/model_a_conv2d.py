@@ -1,10 +1,10 @@
 import tensorflow as tf
-from tf.keras.models import Model
-from tf.keras.layers import Dense, Dropout, Flatten, Input
-from tf.keras.layers import Activation, BatchNormalization
-from tf.keras.layers import Conv2D
-from tf.keras.layers import AveragePooling1D, GlobalAveragePooling2D, MaxPooling1D
-from tf.keras.models import Model, model_from_json, Sequential
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Dense, Dropout, Flatten, Input
+from tensorflow.keras.layers import Activation, BatchNormalization
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import AveragePooling1D, GlobalAveragePooling2D, MaxPooling1D
+from tensorflow.keras.models import Model, model_from_json, Sequential
 
 def conv2d():
     # callback list: ModelCheckpoint, reduceLROnPlat, EarlyStopping
