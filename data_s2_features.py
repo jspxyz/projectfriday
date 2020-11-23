@@ -10,7 +10,7 @@ from tqdm import tqdm
 from functions import noise
 
 # assigning csv
-ref_data_path = pd.read_csv('./Data_CSV/Data_path.csv')
+ref_data_path = pd.read_csv('./Data_Array_Storage/Data_path.csv')
 
 # WARNING: THIS TAKES FOREVER
 

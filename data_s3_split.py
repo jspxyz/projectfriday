@@ -53,8 +53,8 @@ outfile = open(filename,'wb')
 pickle.dump(lb,outfile)
 outfile.close()
 
-with open('example.pkl', 'wb') as f:
-    pickle.dump(df, f)
+# with open('example.pkl', 'wb') as f:
+#     pickle.dump(df, f)
 
 X_train = np.expand_dims(X_train, axis=2)
 X_test = np.expand_dims(X_test, axis=2)
