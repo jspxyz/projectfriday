@@ -49,8 +49,9 @@ Need to find
 - Toronto emotional speech set
 - Crowd Sourced Emotional Multimodal Actors Dataset
 
-**Dataset Details**
-1. SAVEE dataset
+### Dataset Details
+
+#### 1. SAVEE dataset
   - Surrey Audio-Visual Expressed Emotion
     - 480 files - 107 MB
     - Male only
@@ -61,7 +62,7 @@ Need to find
   - The 3 common and 2 × 6 = 12 emotion-specific sentences were recorded as neutral to give 30 neutral sentences. This resulted in a total of 120 utterances per speaker
 
 
-2. RAVDESS dataset
+#### 2. RAVDESS dataset
   - Ryerson Audio-Visual Database of Emotional Speech and Song
     - 1440 files - 429 MB
     - Male & Female
@@ -71,7 +72,7 @@ Need to find
   - Each actor has 60 recordings.
 
 
-3. TESS dataset
+#### 3. TESS dataset
   - Toronto emotional speech set
     - 2800 files - 428 MB
     - Female only
@@ -80,7 +81,7 @@ Need to find
   - Recordings were made of the set portraying each of seven emotions (anger, disgust, fear, happiness, pleasant surprise, sadness, and neutral).
 
 
-4. CREMA-D dataset
+#### 4. CREMA-D dataset
   - Crowd Sourced Emotional Multimodal Actors Dataset
     - 7442 files - 451 MB
     - Male & Female
