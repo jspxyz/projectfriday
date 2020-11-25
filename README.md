@@ -16,12 +16,12 @@ If an athelete is trying to improve their game, do they just "feel" like they ar
 
 Whether you're at work, or in the gym, there's some baseline starting point to improve on.
 
-Measured as a KPI, or weights, or repretitions, or if you can fit into your university clothes, we all need some measurment.
+Measured as a KPI, max weight, repititions, distance, or if you can fit into your university clothes, we all need some measurement.
 
 But when it comes to mental health, where's the starting point?
 
 # Solution
-Introducing Project Friday (insert real app name). The Journal designed around the user's health.
+Introducing Project Friday (insert real app name). The Journal designed around the user's mental health.
 
 This Journal analyzes the User's audio entries to classify sentiment (currently just for polarity) based on the major Keys of your day. Whether it's negative or positive, the Journal will show you how each Key impacts your overall day. From there, the User can start to become self aware on how to brigthen their tomorrow, whether by removing negative Keys or by doing positive Keys.
 
