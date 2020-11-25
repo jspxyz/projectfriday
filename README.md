@@ -122,7 +122,7 @@ What is this? Good question.
 
 Ensemble methods use multiple learning algorithms to obtain better predictive performance than could be obtained from any of the constituent learning algorithms alone
 
-Potential Issues: No idea what that is. I just heard it yesterday.
+Potential Issues: No idea what that is. I just heard of this on Wednesday the 25th.
 
 ## Model 3
 Same as Model 1, except keep output of Model 1.A and 1.B separate.
