@@ -92,9 +92,9 @@ Need to find
 
 # Modeling
 
-Input: Journal Entry as audio file
-Output1: Polarity Sentiment for the Entry
-Output2: Polarity Sentiment impact by Keys 
+- Input: Journal Entry as audio file
+- Output1: Polarity Sentiment for the Entry
+- Output2: Polarity Sentiment impact by Keys 
 
 ## Model 1
 
