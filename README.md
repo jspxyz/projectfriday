@@ -165,3 +165,8 @@ My approach for the next 3 weeks.
 - contingency plan if model fails
 - finish presentation
 
+# Demonstration
+- building dashboard
+- high risk of not being able to build the dashboard
+- modeling can take too long (can work on API instead, Watson)
+- UI development with graph, charts could take 4/5 days
