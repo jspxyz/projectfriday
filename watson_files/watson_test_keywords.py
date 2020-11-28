@@ -3,8 +3,10 @@ from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson.natural_language_understanding_v1 import Features, KeywordsOptions
 
-api = 'pC5Lg1_lf0msxrFZzgWzC5UZR7diA4sXEBWqs8JAI8kN'
-api_url = 'https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/13ff64aa-1811-4714-94bd-24780dcf9aa0'
+from config import config_nlu_api, config_nlu_api_url
+
+api = config_nlu_api
+api_url = config_nlu_api_url
 
 authenticator = IAMAuthenticator(api)
 natural_language_understanding = NaturalLanguageUnderstandingV1(

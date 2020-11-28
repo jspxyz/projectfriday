@@ -6,7 +6,7 @@ from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import AveragePooling1D, GlobalAveragePooling2D, MaxPooling1D
 from tensorflow.keras.models import Model, model_from_json, Sequential
 
-def conv2d():
+def model_a_conv2d():
     # callback list: ModelCheckpoint, reduceLROnPlat, EarlyStopping
     checkpoint_path = "model_conv2d.h5"
 

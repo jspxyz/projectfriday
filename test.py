@@ -1,3 +1,3 @@
 from models import *
-test_a()
+model_a_conv2d() # must write the function
 test_b()
