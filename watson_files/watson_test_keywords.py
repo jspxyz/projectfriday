@@ -3,10 +3,16 @@ from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson.natural_language_understanding_v1 import Features, KeywordsOptions
 
+# changing system path to import config modeul
+import os, sys
+sys.path.insert(1, os.getcwd())
 from config import config_nlu_api, config_nlu_api_url
 
 api = config_nlu_api
 api_url = config_nlu_api_url
+
+# print(api)
+# print(api_url)
 
 authenticator = IAMAuthenticator(api)
 natural_language_understanding = NaturalLanguageUnderstandingV1(
