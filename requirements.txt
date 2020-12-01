@@ -58,10 +58,13 @@ jedi==0.17.2
 Jinja2==2.11.2
 jmespath==0.10.0
 joblib==0.17.0
+json5==0.9.5
 jsonschema==3.2.0
 jupyter-client==6.1.7
 jupyter-core==4.6.3
+jupyterlab==2.2.9
 jupyterlab-pygments==0.1.2
+jupyterlab-server==1.2.0
 kaggle==1.5.9
 Keras-Preprocessing==1.1.2
 kiwisolver==1.2.0
