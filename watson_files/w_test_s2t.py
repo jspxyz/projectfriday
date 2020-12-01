@@ -34,14 +34,18 @@ class MyRecognizeCallback(RecognizeCallback):
 
 myRecognizeCallback = MyRecognizeCallback()
 
-with open(join(dirname(__file__), './.', 'audio-file.flac'),
+# with open(join(dirname(__file__), './.', 'test_r2_testing.wav'), # audio-file.flac
+#               'rb') as audio_file:
+
+
+with open(join('./.', 'test_r2_testing.wav'),
               'rb') as audio_file:
     audio_source = AudioSource(audio_file)
     speech_to_text.recognize_using_websocket(
         audio=audio_source,
-        content_type='audio/flac',
+        content_type='audio/wav', # content_type='audio/flac',
         recognize_callback=myRecognizeCallback,
-        model='en-US_BroadbandModel',
-        keywords=['colorado', 'tornado', 'tornadoes'],
-        keywords_threshold=0.5,
-        max_alternatives=3)
+        model='en-US_BroadbandModel')
+        # keywords=['colorado', 'tornado', 'tornadoes'],
+        # keywords_threshold=0.5,
+        # max_alternatives=3)

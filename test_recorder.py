@@ -2,7 +2,7 @@ import pyaudio
 import wave, os
 
 FORMAT = pyaudio.paInt16
-CHANNELS = 2
+CHANNELS = 1
 RATE = 44100
 CHUNK = 1024
 RECORD_SECONDS = 5
@@ -35,4 +35,4 @@ waveFile.setsampwidth(audio.get_sample_size(FORMAT))
 waveFile.setframerate(RATE)
 waveFile.writeframes(b''.join(frames))
 waveFile.close()
-os.system("afplay file.wav")
+# os.system("afplay file.wav")
