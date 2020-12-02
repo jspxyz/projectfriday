@@ -28,7 +28,7 @@ checkpoint_path = "./models_h5/model_a_conv1d.h5"
 callbacks = [tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
                                                  save_weights_only=False,
                                                  save_best_only=True,
-                                                 verbose=1),
+                                                 verbose=1), # 1 tells your which epoch is saving
                tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', 
                                                 patience=5, 
                                                 restore_best_weights=True),
