@@ -5,10 +5,10 @@ CHUNK = 1024
 FORMAT = pyaudio.paInt16 
 CHANNELS = 1 
 RATE = 44100 
-RECORD_SECONDS = 10
+# RECORD_SECONDS = 10
 WAVE_OUTPUT_FILENAME = "test_r2_testing.wav"
 
-def record():
+def record(RECORD_SECONDS):
     p = pyaudio.PyAudio()
 
     stream = p.open(format=FORMAT,

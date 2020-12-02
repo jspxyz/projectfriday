@@ -57,7 +57,7 @@ with open('./Data_Array_Storage/y_test.pkl', 'wb') as f:
     pickle.dump(y_test, f)
 
 # Pickel the lb object for future use 
-with open('./Data_Array_Storage/lablels.pkl', 'wb') as f:
+with open('./Data_Array_Storage/labels.pkl', 'wb') as f:
     pickle.dump(lb, f)
 
 # expanding X_train and X_test dimensions

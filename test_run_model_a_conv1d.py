@@ -22,7 +22,7 @@ model = model_a_conv1d()
 optimizer = tf.keras.optimizers.RMSprop(lr=0.00001, decay=1e-6)
 
 # callback list: ModelCheckpoint, reduceLROnPlat, EarlyStopping
-checkpoint_path = "./models_h5/model_a_conv1d.h5"
+checkpoint_path = "./models_saved/model_a_conv1d.h5"
 
 # Create a callback that saves the model's weights
 callbacks = [tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
