@@ -4,7 +4,7 @@ import os
 import pandas as pd
 import pickle
 import tensorflow as tf
-from test_recorder2 import record
+from recorder2 import record
 
 # load the model
 # code from predict_load_model
