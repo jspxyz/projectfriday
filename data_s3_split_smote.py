@@ -79,7 +79,7 @@ smote = SMOTE(sampling_strategy='minority',
 # fit and apply the transform
 X_train_smote, y_train_smote = smote.fit_resample(X_train_smote, y_train_smote)
 
-print('Shape after undersample')
+print('Shape after SMOTE')
 print('X_train: ', X_train_smote.shape)
 print('X_test: ', X_test_smote.shape)
 print('y_train: ', y_train_smote.shape)
@@ -132,33 +132,3 @@ print('X_test: ', X_test_smote.shape)
 print('y_train: ', y_train_smote.shape)
 print('y_test: ', y_test_smote.shape)
 
-# testing when could not convert numpy to tensor
-# due to missing features tolist portion
-# X_train_tensor = tf.convert_to_tensor(X_train_smote)
-
-# print(type(X_train_tensor))
-
-# with open('./Data_Array_Storage/X_train_smote.npy', 'wb') as f:
-#     np.save(f, X_train_smote)
-
-# with open('test.npy', 'wb') as f:
-#     np.save(f, np.array([1, 2]))
-#     np.save(f, np.array([1, 3]))
-# with open('test.npy', 'rb') as f:
-#     a = np.load(f)
-#     b = np.load(f)
-# print(a, b)
-# [1 2] [1 3]
-
-# with open('example.pkl', 'wb') as f:
-#     pickle.dump(df, f)
-
-# example: saving df_features as pickle file
-# with open('./Data_Array_Storage/data_features.pkl', 'wb') as f:
-#     pickle.dump(df_features, f)
-
-# old method to pickle file
-    # filename = 'labels'
-    # outfile = open(filename,'wb')
-    # pickle.dump(lb_smote,outfile)
-    # outfile.close()

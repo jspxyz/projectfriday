@@ -5,7 +5,7 @@ from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import AveragePooling1D, GlobalAveragePooling2D, MaxPooling1D
 from tensorflow.keras.models import Model, model_from_json, Sequential
 
-def model_a_conv2d():
+def model_b_conv2d():
     # New model
     model = Sequential([
         tf.keras.layers.Conv2D(256, 8, padding='same',input_shape=(X_train.shape[1],1),activation='relu'), # X_train.shape[1] = No. of Columns

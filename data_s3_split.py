@@ -71,6 +71,15 @@ with open('./Data_Array_Storage/X_train.pkl', 'wb') as f:
 with open('./Data_Array_Storage/X_test.pkl', 'wb') as f:
     pickle.dump(X_test, f)
 
+print('Shape after format for keras')
+print('X_train: ', X_train.shape)
+print('X_test: ', X_test.shape)
+print('y_train: ', y_train.shape)
+print('y_test: ', y_test.shape)
+
+print(X_train[:10])
+print(y_train[:10])
+
 # testing when could not convert numpy to tensor
 # due to missing features tolist portion
 # X_train_tensor = tf.convert_to_tensor(X_train)

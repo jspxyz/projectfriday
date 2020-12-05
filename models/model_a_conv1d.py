@@ -36,3 +36,4 @@ def model_a_conv1d():
     return model
 
 # model_a_conv1d().summary()
+

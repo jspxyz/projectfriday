@@ -18,7 +18,7 @@ with open('./Data_Array_Storage/y_test.pkl', 'rb') as f:
 
 # loading model with just h5
 # Recreate the exact same model, including its weights and the optimizer
-model_from_h5 = tf.keras.models.load_model('./models_saved/model_a_conv1d.h5')
+model_from_h5 = tf.keras.models.load_model('./models_saved/harry-7_best_model_CNN_13.h5')
 
 # Show the model architecture
 model_from_h5.summary()
