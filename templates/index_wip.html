@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<!-- https://github.com/cwilso/AudioRecorder/blob/master/index.html-->
+<!-- updated on 2020.12.05-->
+
+<!doctype html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Audio Recorder index.html</title>
+
+	<script src="static/audiodisplay.js"></script>
+	<script src="static/recorder.js"></script>
+	<script src="static/main.js"></script>
+
+</head>
+<body>
+	<div id="viz">
+		<canvas id="analyser" width="1024" height="500"></canvas>
+		<canvas id="wavedisplay" width="1024" height="500"></canvas>
+	</div>
+	<div id="controls">
+		<img id="record" src="img/mic128.png" onclick="toggleRecording(this);">
+		<a id="save" href="#"><img src="img/save.svg"></a>
+	</div>
+</body>
+</html>
+
+{% endblock %}

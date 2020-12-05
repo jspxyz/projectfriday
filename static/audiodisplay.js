@@ -1,3 +1,6 @@
+/* https://github.com/danijel3/audio_gui/blob/master/static/audiodisplay.js */
+/* https://github.com/cwilso/AudioRecorder/blob/master/js/audiodisplay.js */
+
 function drawBuffer( width, height, context, data ) {
     var step = Math.ceil( data.length / width );
     var amp = height / 2;
