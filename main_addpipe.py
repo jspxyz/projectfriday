@@ -26,3 +26,20 @@ def index():
 
 if __name__ == "__main__":
     app.run()
+
+# possible solution
+# @app.route("/", methods=['POST', 'GET'])
+# def index():
+#     if request.method == "POST":
+#         f = request.files['audio_data']
+#         with open('audio.wav', 'wb') as audio:
+#             f.save(audio)
+#         print('file uploaded successfully')
+
+#         return render_template('index.html', request="POST")
+#     else:
+#         return render_template("index.html")
+
+
+# if __name__ == "__main__":
+#     app.run(debug=True)
