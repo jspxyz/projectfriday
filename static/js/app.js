@@ -158,8 +158,8 @@ function createDownloadLink(blob) {
 		  };
 		  var fd=new FormData();
 		  fd.append("audio_data",blob, filename);
-          xhr.open("POST","upload.php",true); /* # original upload using php */
-          /* xhr.open("POST","/",true); updating to use python?? */
+          /* xhr.open("POST","upload.php",true); /* # original upload using php */
+          xhr.open("POST","/",true); /* updating to use python?? */
 		  xhr.send(fd);
 	})
 	li.appendChild(document.createTextNode (" "))//add a space in between

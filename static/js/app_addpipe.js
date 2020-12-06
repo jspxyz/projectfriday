@@ -146,7 +146,7 @@ function createDownloadLink(blob) {
 
 	//add the save to disk link to li
 	li.appendChild(link);
-	
+
 	//upload link
 	var upload = document.createElement('a');
 	upload.href="#";
