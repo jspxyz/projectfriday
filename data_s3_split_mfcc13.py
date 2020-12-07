@@ -13,20 +13,58 @@ with open('./Data_Array_Storage/data_features_mfcc13.pkl', 'rb') as f:
     df_features = pickle.load(f)
 
 # opening df_features_noise as pickle file
-# with open('./Data_Array_Storage/data_features_noise_mfcc13.pkl', 'rb') as f:
-#     df_features_noise = pickle.load(f)
+with open('./Data_Array_Storage/data_features_noise_mfcc13.pkl', 'rb') as f:
+    df_features_noise = pickle.load(f)
 
-print(type(df_features))
+# opening error_list as pickle file
+with open('./Data_Array_Storage/error_list.pkl', 'rb') as f:
+    error_list = pickle.load(f)
+
+print("Error list: ", len(error_list))
+
+# changing lists into numpy arrays
+# ref_data_path_array = np.array(ref_data_path) # do not need this
 df_features_array = np.array(df_features)
-print(df_features_array.shape)
+df_features_noise_array = np.array(df_features_noise)
 
-print(df_features_array[:10])
-# print(df_features.shape)
-# print(df_features_noise.shape)
-# print(df_features.head())
-# print(df_features['feature'][:20].values)
-# print(df_features['feature'].shape)
-# print(df_features['feature'][1].shape)
+# creating a y table that matches X table by doubling the ref_data_path
+df_y_full = pd.concat((ref_data_path, ref_data_path),axis=0)
+print('df_y_full: ', df_y_full.shape)
+
+# creating X table of all dataset
+X_full = np.concatenate((df_features, df_features_noise),axis=0)
+print('X_full: ', X_full.shape)
+
+# drop the columns
+y_full = df_y_full.drop(['gender','emotion','label_emotion','label_polarity','path','source'],axis=1).to_numpy().squeeze()
+
+print('y_full after drop: ', y_full[:5])
+
+# set random seed
+np.random.seed(42)
+
+# set indices to randomize
+indices = np.random.permutation(len(X_full))
+train_size = 0.8
+len_train_set = int(len(X_full) * train_size)
+
+X_train = X_full[:len_train_set]
+y_train = y_full[:len_train_set]
+
+X_test = X_full[len_train_set:]
+y_test = y_full[len_train_set:]
+
+print('shapes after np.random.permutation splits')
+print('X_train: ', X_train.shape)
+print('y_train: ', y_train.shape)
+print('X_test: ', X_test.shape)
+print('y_test: ', y_test.shape)
+
+print('y_test header 5')
+print(y_test[:5])
+
+print('X_test header 3')
+print(X_test[:3])
 
 # combining path with features
 # changing features to list
@@ -51,35 +89,37 @@ print(df_features_array[:10])
 # print('y_train: ', y_train.shape)
 # print('y_test: ', y_test.shape)
 
-# # Data normalization 
-# mean = np.mean(X_train, axis=0)
-# std = np.std(X_train, axis=0)
+# Data normalization 
+mean = np.mean(X_train, axis=0)
+std = np.std(X_train, axis=0)
 
-# X_train = (X_train - mean)/std
-# X_test = (X_test - mean)/std
+X_train = (X_train - mean)/std
+X_test = (X_test - mean)/std
 
-# # Preparation steps to get it into the correct format for Keras 
+# Preparation steps to get it into the correct format for Keras 
 # X_train = np.array(X_train)
 # y_train = np.array(y_train)
 # X_test = np.array(X_test)
 # y_test = np.array(y_test)
 
-# print('Shape after Keras formatting')
-# print('X_train: ', X_train.shape)
-# print('X_test: ', X_test.shape)
-# print('y_train: ', y_train.shape)
-# print('y_test: ', y_test.shape)
+print('Shape after Keras formatting')
+print('X_train: ', X_train.shape)
+print('X_test: ', X_test.shape)
+print('y_train: ', y_train.shape)
+print('y_test: ', y_test.shape)
 
-# # one hot encode the target 
-# lb = LabelEncoder()
-# y_train = tf.keras.utils.to_categorical(lb.fit_transform(y_train)) # tf.keras.utils.to_categorical
-# y_test = tf.keras.utils.to_categorical(lb.fit_transform(y_test))
+# one hot encode the target 
+lb = LabelEncoder()
+y_train = tf.keras.utils.to_categorical(lb.fit_transform(y_train)) # tf.keras.utils.to_categorical
+y_test = tf.keras.utils.to_categorical(lb.fit_transform(y_test))
 
-# print('Shape after oe hot encode (for y_ only)')
-# print('X_train: ', X_train.shape)
-# print('X_test: ', X_test.shape)
-# print('y_train: ', y_train.shape)
-# print('y_test: ', y_test.shape)
+print('Shape after one hot encode (for y_ only)')
+print('X_train: ', X_train.shape)
+print('X_test: ', X_test.shape)
+print('y_train: ', y_train.shape)
+print('y_test: ', y_test.shape)
+
+print('y_test top 5', y_test[:5])
 
 # # save y_train, y_test
 # with open('./Data_Array_Storage/y_train.pkl', 'wb') as f:
@@ -109,42 +149,11 @@ print(df_features_array[:10])
 # with open('./Data_Array_Storage/X_test.pkl', 'wb') as f:
 #     pickle.dump(X_test, f)
 
-# # print('Shape after format for keras')
-# # print('X_train: ', X_train.shape)
-# # print('X_test: ', X_test.shape)
-# # print('y_train: ', y_train.shape)
-# # print('y_test: ', y_test.shape)
+# print('Shape after format for keras')
+# print('X_train: ', X_train.shape)
+# print('X_test: ', X_test.shape)
+# print('y_train: ', y_train.shape)
+# print('y_test: ', y_test.shape)
 
-# # print(X_train[:10])
-# # print(y_train[:10])
-
-# # testing when could not convert numpy to tensor
-# # due to missing features tolist portion
-# # X_train_tensor = tf.convert_to_tensor(X_train)
-
-# # print(type(X_train_tensor))
-
-# # with open('./Data_Array_Storage/X_train.npy', 'wb') as f:
-# #     np.save(f, X_train)
-
-# # with open('test.npy', 'wb') as f:
-# #     np.save(f, np.array([1, 2]))
-# #     np.save(f, np.array([1, 3]))
-# # with open('test.npy', 'rb') as f:
-# #     a = np.load(f)
-# #     b = np.load(f)
-# # print(a, b)
-# # [1 2] [1 3]
-
-# # with open('example.pkl', 'wb') as f:
-# #     pickle.dump(df, f)
-
-# # example: saving df_features as pickle file
-# # with open('./Data_Array_Storage/data_features.pkl', 'wb') as f:
-# #     pickle.dump(df_features, f)
-
-# # old method to pickle file
-#     # filename = 'labels'
-#     # outfile = open(filename,'wb')
-#     # pickle.dump(lb,outfile)
-#     # outfile.close()
+# print(X_train[:10])
+# print(y_train[:10])

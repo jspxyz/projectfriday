@@ -24,6 +24,8 @@ df_features_noise = []
 # df_features_speedpitch = pd.DataFrame(columns=['feature'])
 # cnt = 0
 
+error_list = []
+
 # loop feature extraction over the entire dataset
 for i, path in enumerate(tqdm(ref_data_path.path)):
     try:
@@ -69,7 +71,7 @@ for i, path in enumerate(tqdm(ref_data_path.path)):
         
 
         # df_features_noise.loc[i] = [aug]
-        df_features.append(aug)
+        df_features_noise.append(aug)
 
                 # random shifting (omit for now)
         # Stretch
@@ -86,6 +88,7 @@ for i, path in enumerate(tqdm(ref_data_path.path)):
 
         # cnt += 1
     except Exception as err:
+        error_list.append(path)
         print('Error in processing', err)
 
 # saving df_features as pickle file
@@ -95,6 +98,10 @@ with open('./Data_Array_Storage/data_features_mfcc13.pkl', 'wb') as f:
 # saving df_features_noise as pickle file
 with open('./Data_Array_Storage/data_features_noise_mfcc13.pkl', 'wb') as f:
     pickle.dump(df_features_noise, f)
+
+# saving df_features_noise as pickle file
+with open('./Data_Array_Storage/error_list.pkl', 'wb') as f:
+    pickle.dump(error_list, f)
 
 # misc. Code
 # df_features.to_csv("./Data_CSV/Data_features.csv",index=False)

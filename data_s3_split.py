@@ -31,6 +31,7 @@ X_train, X_test, y_train, y_test = train_test_split(df_final.drop(['gender','emo
                                                     shuffle=True,
                                                     random_state=42)
 
+print(y_train[:5])
 # Data normalization 
 mean = np.mean(X_train, axis=0)
 std = np.std(X_train, axis=0)
@@ -49,64 +50,73 @@ lb = LabelEncoder()
 y_train = tf.keras.utils.to_categorical(lb.fit_transform(y_train)) # tf.keras.utils.to_categorical
 y_test = tf.keras.utils.to_categorical(lb.fit_transform(y_test))
 
-# save y_train, y_test
-with open('./Data_Array_Storage/y_train.pkl', 'wb') as f:
-    pickle.dump(y_train, f)
-
-with open('./Data_Array_Storage/y_test.pkl', 'wb') as f:
-    pickle.dump(y_test, f)
-
-# Pickel the lb object for future use 
-with open('./Data_Array_Storage/labels.pkl', 'wb') as f:
-    pickle.dump(lb, f)
-
-# expanding X_train and X_test dimensions
-X_train = np.expand_dims(X_train, axis=2)
-X_test = np.expand_dims(X_test, axis=2)
-
-# saving X_train and X_test
-with open('./Data_Array_Storage/X_train.pkl', 'wb') as f:
-    pickle.dump(X_train, f)
-
-with open('./Data_Array_Storage/X_test.pkl', 'wb') as f:
-    pickle.dump(X_test, f)
-
-print('Shape after format for keras')
+print('Shape after one hot encode (for y_ only)')
 print('X_train: ', X_train.shape)
 print('X_test: ', X_test.shape)
 print('y_train: ', y_train.shape)
 print('y_test: ', y_test.shape)
 
-print(X_train[:10])
-print(y_train[:10])
+print('y_test top 5', y_test[:5])
 
-# testing when could not convert numpy to tensor
-# due to missing features tolist portion
-# X_train_tensor = tf.convert_to_tensor(X_train)
 
-# print(type(X_train_tensor))
+# # save y_train, y_test
+# with open('./Data_Array_Storage/y_train.pkl', 'wb') as f:
+#     pickle.dump(y_train, f)
 
-# with open('./Data_Array_Storage/X_train.npy', 'wb') as f:
-#     np.save(f, X_train)
+# with open('./Data_Array_Storage/y_test.pkl', 'wb') as f:
+#     pickle.dump(y_test, f)
 
-# with open('test.npy', 'wb') as f:
-#     np.save(f, np.array([1, 2]))
-#     np.save(f, np.array([1, 3]))
-# with open('test.npy', 'rb') as f:
-#     a = np.load(f)
-#     b = np.load(f)
-# print(a, b)
-# [1 2] [1 3]
+# # Pickel the lb object for future use 
+# with open('./Data_Array_Storage/labels.pkl', 'wb') as f:
+#     pickle.dump(lb, f)
 
-# with open('example.pkl', 'wb') as f:
-#     pickle.dump(df, f)
+# # expanding X_train and X_test dimensions
+# X_train = np.expand_dims(X_train, axis=2)
+# X_test = np.expand_dims(X_test, axis=2)
 
-# example: saving df_features as pickle file
-# with open('./Data_Array_Storage/data_features.pkl', 'wb') as f:
-#     pickle.dump(df_features, f)
+# # saving X_train and X_test
+# with open('./Data_Array_Storage/X_train.pkl', 'wb') as f:
+#     pickle.dump(X_train, f)
 
-# old method to pickle file
-    # filename = 'labels'
-    # outfile = open(filename,'wb')
-    # pickle.dump(lb,outfile)
-    # outfile.close()
+# with open('./Data_Array_Storage/X_test.pkl', 'wb') as f:
+#     pickle.dump(X_test, f)
+
+# print('Shape after format for keras')
+# print('X_train: ', X_train.shape)
+# print('X_test: ', X_test.shape)
+# print('y_train: ', y_train.shape)
+# print('y_test: ', y_test.shape)
+
+# print(X_train[:10])
+# print(y_train[:10])
+
+# # testing when could not convert numpy to tensor
+# # due to missing features tolist portion
+# # X_train_tensor = tf.convert_to_tensor(X_train)
+
+# # print(type(X_train_tensor))
+
+# # with open('./Data_Array_Storage/X_train.npy', 'wb') as f:
+# #     np.save(f, X_train)
+
+# # with open('test.npy', 'wb') as f:
+# #     np.save(f, np.array([1, 2]))
+# #     np.save(f, np.array([1, 3]))
+# # with open('test.npy', 'rb') as f:
+# #     a = np.load(f)
+# #     b = np.load(f)
+# # print(a, b)
+# # [1 2] [1 3]
+
+# # with open('example.pkl', 'wb') as f:
+# #     pickle.dump(df, f)
+
+# # example: saving df_features as pickle file
+# # with open('./Data_Array_Storage/data_features.pkl', 'wb') as f:
+# #     pickle.dump(df_features, f)
+
+# # old method to pickle file
+#     # filename = 'labels'
+#     # outfile = open(filename,'wb')
+#     # pickle.dump(lb,outfile)
+#     # outfile.close()

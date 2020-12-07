@@ -222,7 +222,11 @@ emotion_tess = []
 gender_tess = []
 
 for i in dir_list_tess:
+    if i == '.DS_Store': # ignoring the stupid mac file
+        continue
+
     fname = os.listdir(TESS + i)
+    
     for f in fname:
         if i == 'OAF_angry' or i == 'YAF_angry':
             emotion_tess.append('angry')
@@ -251,10 +255,10 @@ for i in dir_list_tess:
         path_tess.append(TESS + i + "/" + f)
 
 
-# creating gender, emotion dataframe
-TESS_df = pd.DataFrame(gender_savee, columns = ['gender'])
-TESS_df = pd.concat([TESS_df, pd.DataFrame(emotion_savee, columns = ['emotion'])],axis=1)
-TESS_df['label_emotion'] = TESS_df.gender + '_' + TESS_df.emotion
+# # creating gender, emotion dataframe
+# TESS_df = pd.DataFrame(gender_savee, columns = ['gender'])
+# TESS_df = pd.concat([TESS_df, pd.DataFrame(emotion_savee, columns = ['emotion'])],axis=1)
+# TESS_df['label_emotion'] = TESS_df.gender + '_' + TESS_df.emotion
 
 # creating gender, emotion dataframe
 TESS_df = pd.DataFrame(gender_tess, columns = ['gender'])
@@ -284,4 +288,5 @@ TESS_df = pd.concat([TESS_df,pd.DataFrame(path_tess, columns = ['path'])],axis=1
 df_path = pd.concat([SAVEE_df, RAV_df, TESS_df, CREMA_df], axis = 0)
 # print(df.label_polarity.value_counts())
 # df.head()
+print(df_path.shape)
 df_path.to_csv("./Data_Array_Storage/Data_path.csv",index=False)
