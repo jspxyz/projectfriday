@@ -18,9 +18,16 @@ def index():
 
 @app.route('/audio', methods=['POST'])
 def audio():
-    with open('./entries/audio.wav', 'wb') as f:
+    basename = "audio.wav"
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+    filename = "_".join([timestamp, basename]) # e.g. '20201207_1714_audio'
+    savepath = './entries/audio'
+    filepath = "/".join([savepath, filename])
+    with open(filepath, 'wb') as f:
         f.write(request.data)
-    proc = run(['ffprobe', '-of', 'default=noprint_wrappers=1', './entries/audio.wav'], text=True, stderr=PIPE)
+    # with open('./entries/audio.wav', 'wb') as f:
+    #     f.write(request.data)
+    proc = run(['ffprobe', '-of', 'default=noprint_wrappers=1', filepath], text=True, stderr=PIPE)
     return proc.stderr
 
 
@@ -28,7 +35,9 @@ if __name__ == "__main__":
     app.logger = logging.getLogger('audio-gui')
     app.run(debug=True)
 
-import datetime
-basename = "audio"
-timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
-filename = "_".join([timestamp, basename]) # e.g. '20201207_1714_audio'
+# import datetime
+# basename = "audio"
+# timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+# filename = "_".join([timestamp, basename]) # e.g. '20201207_1714_audio'
+# savepath = './entries/audio'
+# filepath = "/".join([savepath, filename]) # outputs: './entries/audio/20201207_1142_audio'
