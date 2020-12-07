@@ -1,12 +1,6 @@
-from flask import Flask, render_template, logging, request, jsonify
 from subprocess import run, PIPE
 
-import tensorflow as tf
-import numpy as np
-import re
-import os
-import base64
-import uuid
+from flask import logging, Flask, render_template, request
 
 ## https://github.com/danijel3/audio_gui/blob/master/main.py
 ## updated on 2020.12.05
