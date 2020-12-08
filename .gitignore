@@ -1,6 +1,8 @@
 __pycache__
+.ipynb_checkpoints
 config
 data
 Data_Array_Storage
+entries
 models_saved
-.ipynb_checkpoints
+zArchived
