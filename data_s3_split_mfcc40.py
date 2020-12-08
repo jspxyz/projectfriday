@@ -90,8 +90,13 @@ print(X_test[:3])
 # print('y_test: ', y_test.shape)
 
 # Data normalization 
+# original 
 mean = np.mean(X_train, axis=0)
 std = np.std(X_train, axis=0)
+
+# another methood to data normazilie over each individual
+# mean = np.mean(np.reshape(X_train, (X_train.shape[0], -1)), axis=1) # (1000,)
+# std = np.std(np.reshape(X_train, (X_train.shape[0], -1)), axis=1)   # (1000,)
 
 X_train = (X_train - mean)/std
 X_test = (X_test - mean)/std

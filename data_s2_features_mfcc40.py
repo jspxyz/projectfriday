@@ -51,6 +51,8 @@ for i, path in enumerate(tqdm(ref_data_path.path)):
         else:
             mfccs = mfccs[:, :max_len]
         
+        # changing axis to be (time, features)
+        mfccs = np.moveaxis(mfccs, 0, -1)
         # df_features.loc[i] = [mfccs]   
         df_features.append(mfccs)
         
@@ -69,7 +71,8 @@ for i, path in enumerate(tqdm(ref_data_path.path)):
         else:
             aug = aug[:, :max_len]
         
-
+        # changing axis to be (time, features)
+        aug = np.moveaxis(aug, 0, -1)
         # df_features_noise.loc[i] = [aug]
         df_features_noise.append(aug)
 
@@ -91,14 +94,17 @@ for i, path in enumerate(tqdm(ref_data_path.path)):
         error_list.append(path)
         print('Error in processing', err)
 
+print('df_features shape: ', np.shape(df_features))
 # saving df_features as pickle file
 with open('./Data_Array_Storage/data_features_mfcc40.pkl', 'wb') as f:
     pickle.dump(df_features, f)
 
+print('df_features_noise shape: ', np.shape(df_features_noise))
 # saving df_features_noise as pickle file
 with open('./Data_Array_Storage/data_features_noise_mfcc40.pkl', 'wb') as f:
     pickle.dump(df_features_noise, f)
 
+print('error_list shape: ', np.shape(error_list))
 # saving df_features_noise as pickle file
 with open('./Data_Array_Storage/error_list_40.pkl', 'wb') as f:
     pickle.dump(error_list, f)

@@ -18,6 +18,6 @@ def model_c_conv2d(input_shape):
     model.add(Dense(64, activation ='relu'))
     model.add(Dense(3, activation ='softmax'))
     model.summary()
-    model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['acc'])
+    model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
     
     return model

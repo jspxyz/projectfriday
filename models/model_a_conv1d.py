@@ -5,6 +5,11 @@ from tensorflow.keras.layers import Conv1D, Conv2D
 from tensorflow.keras.layers import AveragePooling1D, GlobalAveragePooling2D, MaxPooling1D
 from tensorflow.keras.models import Model, model_from_json, Sequential
 
+# notes with Tom on December 8, 2020 at 1558
+# try changing 8 to 3, this is taking too many timestamps at a time
+# edit starting from small to large, not from 256
+# could add globalaverage1d instead of flatten
+
 def model_a_conv1d(input_shape):
     model = Sequential()
     model.add(Conv1D(256, 8, padding='same',input_shape=input_shape))  # X_train.shape[1] = No. of Columns (216)
