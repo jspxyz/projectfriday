@@ -43,14 +43,14 @@ data, sampling_rate = librosa.load(prediction_sound)
 
 # Transform the file so we can apply the predictions
 X, sample_rate = librosa.load(prediction_sound,
-                              res_type='kaiser_fast',
+                              res_type='kaiser_best',
                               duration=2.5,
                               sr=44100,
                               offset=0.5
                              )
 
 sample_rate = np.array(sample_rate)
-mfccs = np.mean(librosa.feature.mfcc(y=X, sr=sample_rate, n_mfcc=13),axis=0)
+mfccs = np.mean(librosa.feature.mfcc(y=X, sr=sample_rate, n_mfcc=40),axis=0)
 newdf = pd.DataFrame(data=mfccs).T
 
 # apply prediction

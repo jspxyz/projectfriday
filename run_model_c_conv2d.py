@@ -5,20 +5,21 @@ import tensorflow as tf
 from models import model_c_conv2d
 
 # assigning the pickle files
-with open('./Data_Array_Storage/X_train.pkl', 'rb') as f:
+with open('./Data_Array_Storage/X_train_mfcc40_axis0.pkl', 'rb') as f:
     X_train = pickle.load(f)
 
-with open('./Data_Array_Storage/X_test.pkl', 'rb') as f:
+with open('./Data_Array_Storage/X_test_mfcc40_axis0.pkl', 'rb') as f:
     X_test = pickle.load(f)
 
-with open('./Data_Array_Storage/y_train.pkl', 'rb') as f:
+with open('./Data_Array_Storage/y_train_mfcc40_axis0.pkl', 'rb') as f:
     y_train = pickle.load(f)
 
-with open('./Data_Array_Storage/y_test.pkl', 'rb') as f:
+with open('./Data_Array_Storage/y_test_mfcc40_axis0.pkl', 'rb') as f:
     y_test = pickle.load(f)
 
+input_shape = (X_train.shape[1], X_train.shape[2], X_train.shape[3])
 
-model = model_c_conv2d()
+model = model_c_conv2d(input_shape)
 # optimizer = tf.keras.optimizers.RMSprop(lr=0.00001, decay=1e-6)
 
 # callback list: ModelCheckpoint, reduceLROnPlat, EarlyStopping

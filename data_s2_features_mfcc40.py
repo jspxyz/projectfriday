@@ -31,15 +31,15 @@ for i, path in enumerate(tqdm(ref_data_path.path)):
     try:
     # first load the audio 
         X, sample_rate = librosa.load(path,
-                                    res_type='kaiser_fast',
+                                    res_type='kaiser_best',
                                     duration=2.5,
                                     sr=44100,
                                     offset=0.5)
 
         # take all mfcc as feature
         mfccs = librosa.feature.mfcc(y=X, 
-                                    sr=np.array(sample_rate), 
-                                    n_mfcc=13)
+                                    sr= sample_rate, # np.array(sample_rate), 
+                                    n_mfcc=40)
                                     # axis=0) # removed np.mean
         # If maximum length exceeds mfcc lengths then pad the remaining ones
         max_len = 216
@@ -57,8 +57,8 @@ for i, path in enumerate(tqdm(ref_data_path.path)):
         # noise 
         aug = noise(X)
         aug = librosa.feature.mfcc(y=aug, 
-                                   sr=np.array(sample_rate), 
-                                   n_mfcc=13)
+                                   sr= sample_rate, # np.array(sample_rate), 
+                                   n_mfcc=40)
         
         # If maximum length exceeds mfcc lengths then pad the remaining ones
         if (max_len > aug.shape[1]):
@@ -92,15 +92,15 @@ for i, path in enumerate(tqdm(ref_data_path.path)):
         print('Error in processing', err)
 
 # saving df_features as pickle file
-with open('./Data_Array_Storage/data_features_mfcc13.pkl', 'wb') as f:
+with open('./Data_Array_Storage/data_features_mfcc40.pkl', 'wb') as f:
     pickle.dump(df_features, f)
 
 # saving df_features_noise as pickle file
-with open('./Data_Array_Storage/data_features_noise_mfcc13.pkl', 'wb') as f:
+with open('./Data_Array_Storage/data_features_noise_mfcc40.pkl', 'wb') as f:
     pickle.dump(df_features_noise, f)
 
 # saving df_features_noise as pickle file
-with open('./Data_Array_Storage/error_list.pkl', 'wb') as f:
+with open('./Data_Array_Storage/error_list_40.pkl', 'wb') as f:
     pickle.dump(error_list, f)
 
 # misc. Code

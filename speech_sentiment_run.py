@@ -1,3 +1,11 @@
+'''
+This file is for Watson API.
+Uses Recorder2 to save audio and uses s2t to get text.
+Last Updated: 2020.12.01
+Better working version in speech_sentimnet_run2.py
+Can archive this file.
+'''
+
 import os
 import json
 from os.path import join, dirname
@@ -10,7 +18,7 @@ from ibm_watson.websocket import RecognizeCallback, AudioSource
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 # from speech_sentiment_python.recorder import Recorder
-from test_recorder2 import record
+from recorder2 import record
 
 # changing system path to import config modeul
 import os, sys

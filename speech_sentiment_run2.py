@@ -1,3 +1,9 @@
+'''
+This file is for Watson API.
+Uses Recorder2 to save audio and uses s2t and nlu api to get text, confidence of text, and sentiment.
+Last Updated: 2020.12.01
+'''
+
 import os
 import json
 from os.path import join, dirname
@@ -11,7 +17,7 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson.natural_language_understanding_v1 import Features, KeywordsOptions
 
 # from speech_sentiment_python.recorder import Recorder
-from test_recorder2 import record
+from recorder2 import record
 
 # changing system path to import config modeul
 import os, sys

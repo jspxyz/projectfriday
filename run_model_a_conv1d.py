@@ -17,8 +17,9 @@ with open('./Data_Array_Storage/y_train.pkl', 'rb') as f:
 with open('./Data_Array_Storage/y_test.pkl', 'rb') as f:
     y_test = pickle.load(f)
 
+input_shape = (X_train.shape[1], X_train.shape[2])
 
-model = model_a_conv1d()
+model = model_a_conv1d(input_shape)
 optimizer = tf.keras.optimizers.RMSprop(lr=0.00001, decay=1e-6)
 
 # callback list: ModelCheckpoint, reduceLROnPlat, EarlyStopping

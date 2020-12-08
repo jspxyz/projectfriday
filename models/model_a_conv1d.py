@@ -5,9 +5,9 @@ from tensorflow.keras.layers import Conv1D, Conv2D
 from tensorflow.keras.layers import AveragePooling1D, GlobalAveragePooling2D, MaxPooling1D
 from tensorflow.keras.models import Model, model_from_json, Sequential
 
-def model_a_conv1d():
+def model_a_conv1d(input_shape):
     model = Sequential()
-    model.add(Conv1D(256, 8, padding='same',input_shape=(216,1)))  # X_train.shape[1] = No. of Columns (216)
+    model.add(Conv1D(256, 8, padding='same',input_shape=input_shape))  # X_train.shape[1] = No. of Columns (216)
     model.add(Activation('relu'))
     model.add(Conv1D(256, 8, padding='same'))
     model.add(BatchNormalization())
