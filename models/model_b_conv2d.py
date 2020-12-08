@@ -1,3 +1,7 @@
+'''
+work in progres model page
+'''
+
 import tensorflow as tf
 from tensorflow.keras.layers import Dense, Dropout, Flatten, Input
 from tensorflow.keras.layers import Activation, BatchNormalization
