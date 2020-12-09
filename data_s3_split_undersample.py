@@ -1,6 +1,7 @@
 '''
-- Data Processing Part 3
-- Applying Undersampling to dataset to compensate for low Positive polarity
+Data Processing Part 3
+Applying Undersampling to dataset to compensate for low Positive polarity
+Updated on 20201209 1608 to use mfcc40
 '''
 
 import numpy as np
@@ -16,33 +17,63 @@ from imblearn.under_sampling import RandomUnderSampler
 ref_data_path = pd.read_csv('./Data_Array_Storage/Data_path.csv')
 
 # opening df_features
-with open('./Data_Array_Storage/data_features.pkl', 'rb') as f:
+with open('./Data_Array_Storage/data_features_mfcc40.pkl', 'rb') as f:
     df_features = pickle.load(f)
 
 # opening df_features_noise as pickle file
-with open('./Data_Array_Storage/data_features_noise.pkl', 'rb') as f:
+with open('./Data_Array_Storage/data_features_noise_mfcc40.pkl', 'rb') as f:
     df_features_noise = pickle.load(f)
 
-# combining path with features
-# changing features to list
-df_path_features = pd.concat([ref_data_path,pd.DataFrame(df_features['feature'].values.tolist())],axis=1)
-df_path_features_noise = pd.concat([ref_data_path,pd.DataFrame(df_features_noise['feature'].values.tolist())],axis=1)
+# opening error_list as pickle file
+with open('./Data_Array_Storage/error_list_40.pkl', 'rb') as f:
+    error_list = pickle.load(f)
 
-df_features_all = pd.concat([df_path_features,df_path_features_noise],axis=0,sort=False) # ,df_speedpitch
-df_final = df_features_all.fillna(0)
+print("Error list: ", len(error_list))
 
-# Split between train and test 
-X_train_under, X_test_under, y_train_under, y_test_under = train_test_split(df_final.drop(['gender','emotion','label_emotion','polarity','label_polarity','path','source'],axis=1),
-                                                    df_final.polarity,
-                                                    test_size=0.2,
-                                                    shuffle=True,
-                                                    random_state=42)
+# changing lists into numpy arrays
+# ref_data_path_array = np.array(ref_data_path) # do not need this
+df_features_array = np.array(df_features)
+df_features_noise_array = np.array(df_features_noise)
 
-print('Shape after split into train and test')
-print('X_train: ', X_train_under.shape)
+# creating a y table that matches X table by doubling the ref_data_path
+df_y_full = pd.concat((ref_data_path, ref_data_path),axis=0)
+print('df_y_full: ', df_y_full.shape)
+
+# creating X table of all dataset
+X_full = np.concatenate((df_features, df_features_noise),axis=0)
+print('X_full: ', X_full.shape)
+
+# drop the columns
+y_full = df_y_full.drop(['gender','emotion','label_emotion','label_polarity','path','source'],axis=1).to_numpy().squeeze()
+
+print('y_full after drop: ', y_full[:5])
+
+# set random seed
+np.random.seed(42)
+
+# set indices to randomize
+indices = np.random.permutation(len(X_full))
+train_size = 0.8
+len_train_set = int(len(X_full) * train_size)
+
+X_train_full = X_full[:len_train_set]
+y_train_full = y_full[:len_train_set]
+
+X_test_under = X_full[len_train_set:]
+y_test_under = y_full[len_train_set:]
+
+print('shapes after np.random.permutation splits')
+print('X_train: ', X_train_full.shape)
+print('y_train: ', y_train_full.shape)
 print('X_test: ', X_test_under.shape)
-print('y_train: ', y_train_under.shape)
 print('y_test: ', y_test_under.shape)
+
+print('y_test header 5')
+print(y_test_under[:5])
+
+print('X_test header 3')
+print(X_test_under[:3])
+
 
 '''
 Undersample methods below.
@@ -67,17 +98,19 @@ manual undershuffle code below
 ############
 
 # Method 2: #
+# using imlearn undersampler
+# does not work with 3D data
 #############
 # Trial 1: Using sampling_strategy = majority, accuracy 46%
 # Trail 2: changing sampling_strategy = 0.5, this does not work for multi-class
 
 
 # define undersample strategy
-undersample = RandomUnderSampler(sampling_strategy='majority',
-                                random_state=42)
+# undersample = RandomUnderSampler(sampling_strategy='majority',
+#                                 random_state=42)
 
-# fit and apply the transform
-X_train_under, y_train_under = undersample.fit_resample(X_train_under, y_train_under)
+# # fit and apply the transform
+# X_train_under, y_train_under = undersample.fit_resample(X_train, y_train)
 
 print('Shape after undersample')
 print('X_train: ', X_train_under.shape)
@@ -115,10 +148,6 @@ with open('./Data_Array_Storage/y_test_under.pkl', 'wb') as f:
 with open('./Data_Array_Storage/labels_under.pkl', 'wb') as f:
     pickle.dump(lb_under, f)
 
-# expanding X_train_under and X_test_under dimensions
-X_train_under = np.expand_dims(X_train_under, axis=2)
-X_test_under = np.expand_dims(X_test_under, axis=2)
-
 # saving X_train_under and X_test_under
 with open('./Data_Array_Storage/X_train_under.pkl', 'wb') as f:
     pickle.dump(X_train_under, f)
@@ -132,33 +161,3 @@ print('X_test: ', X_test_under.shape)
 print('y_train: ', y_train_under.shape)
 print('y_test: ', y_test_under.shape)
 
-# testing when could not convert numpy to tensor
-# due to missing features tolist portion
-# X_train_tensor = tf.convert_to_tensor(X_train_under)
-
-# print(type(X_train_tensor))
-
-# with open('./Data_Array_Storage/X_train_under.npy', 'wb') as f:
-#     np.save(f, X_train_under)
-
-# with open('test.npy', 'wb') as f:
-#     np.save(f, np.array([1, 2]))
-#     np.save(f, np.array([1, 3]))
-# with open('test.npy', 'rb') as f:
-#     a = np.load(f)
-#     b = np.load(f)
-# print(a, b)
-# [1 2] [1 3]
-
-# with open('example.pkl', 'wb') as f:
-#     pickle.dump(df, f)
-
-# example: saving df_features as pickle file
-# with open('./Data_Array_Storage/data_features.pkl', 'wb') as f:
-#     pickle.dump(df_features, f)
-
-# old method to pickle file
-    # filename = 'labels'
-    # outfile = open(filename,'wb')
-    # pickle.dump(lb_under,outfile)
-    # outfile.close()

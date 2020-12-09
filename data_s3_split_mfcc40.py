@@ -1,3 +1,8 @@
+'''
+Data Processing Part 3
+Splitting with MFCC 40 features
+'''
+
 import numpy as np
 import pandas as pd
 import pickle
