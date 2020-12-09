@@ -26,6 +26,8 @@ def model_d_conv1d(input_shape):
     model.add(Conv1D(64, 3, padding='same'))
     model.add(Activation('relu'))
     model.add(Conv1D(64, 3, padding='same'))
+    model.add(Dropout(0.25))
+    model.add(MaxPooling1D(pool_size=(3))) # added drop out and maxpooling layer on 20201209 at 1330
     model.add(Activation('relu'))
     model.add(Conv1D(64, 3, padding='same'))
     model.add(Activation('relu'))

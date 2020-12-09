@@ -80,12 +80,12 @@ callbacks = [tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
 opt = keras.optimizers.RMSprop(lr=0.00001, decay=1e-6)
 model.summary()
 
-    def build_model():
-    model = tf.keras.Sequential([   
-          tf.keras.layers.Conv2D(kernel_size=3, filters=12, use_bias=False, padding='same', input_shape=(28, 28, 1)),
-          tf.keras.layers.Flatten(),
-          tf.keras.layers.Dense(200, use_bias=False),        
-          tf.keras.layers.Dense(len(label_names), activation='softmax')
-      ])
-    
-    return model
+def build_model():
+model = tf.keras.Sequential([   
+        tf.keras.layers.Conv2D(kernel_size=3, filters=12, use_bias=False, padding='same', input_shape=(28, 28, 1)),
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(200, use_bias=False),        
+        tf.keras.layers.Dense(len(label_names), activation='softmax')
+    ])
+
+return model
