@@ -1,3 +1,13 @@
+'''
+Data Process Step 1
+Creating a CSV file that has all files with following data:
+emotion, gender, emotion_label, polarity, polarity_label, dataset source, filepath
+
+Major Change Log:
+20201209 1708 - changed positive polarity to include surprise
+    - reasoning: surprising negative output would be defined as negative
+'''
+
 # import libraries
 import os
 import pandas as pd
@@ -9,8 +19,8 @@ SAVEE = './data/savee/ALL/'
 TESS = './data/tess/TESS Toronto emotional speech set data/'
 
 # defining emotion list
-emotion_neutral_list = ['calm', 'neutral', 'surprise']
-emotion_positive_list = ['happy']
+emotion_neutral_list = ['calm', 'neutral']
+emotion_positive_list = ['happy', 'surprise']
 emotion_negative_list = ['angry', 'disgust', 'fear', 'sad']
 
 # function to find polarity of emotions
