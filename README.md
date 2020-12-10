@@ -38,6 +38,92 @@ There are a few challenges I'm running across.
 
 # Datasets
 
+## Datasets Overview
+1. SAVEE dataset
+  - Surrey Audio-Visual Expressed Emotion
+    - 480 files - 107 MB
+    - Male only
+    - [Kaggle Link](https://www.kaggle.com/ejlok1/surrey-audiovisual-expressed-emotion-savee)
+  - The SAVEE database was recorded from four native English male speakers (identified as DC, JE, JK, KL), postgraduate students and researchers at the University of Surrey aged from 27 to 31 years.
+  - Emotion has been described psychologically in discrete categories: anger, disgust, fear, happiness, sadness and surprise. A neutral category is also added to provide recordings of 7 emotion categories.
+  - The text material consisted of 15 TIMIT sentences per emotion: 3 common, 2 emotion-specific and 10 generic sentences that were different for each emotion and phonetically-balanced.
+  - The 3 common and 2 × 6 = 12 emotion-specific sentences were recorded as neutral to give 30 neutral sentences. This resulted in a total of 120 utterances per speaker
+
+
+2. RAVDESS dataset
+  - Ryerson Audio-Visual Database of Emotional Speech and Song
+    - 1440 files - 429 MB
+    - Male & Female
+    - [Kaggle Link](https://www.kaggle.com/uwrfkaggler/ravdess-emotional-speech-audio)
+  - The dataset was created by 24 professional actors (12 female, 12 male), vocalizing two lexically-matched statements in a neutral North American accent.
+  - Speech emotions includes calm, happy, sad, angry, fearful, surprise, and disgust expressions. Each expression is produced at two levels of emotional intensity (normal, strong), with an additional neutral expression.
+  - Each actor has 60 recordings.
+
+
+3. TESS dataset
+  - Toronto emotional speech set
+    - 2800 files - 428 MB
+    - Female only
+    - [Kaggle Link](https://www.kaggle.com/ejlok1/toronto-emotional-speech-set-tess)
+  - There are a set of 200 target words were spoken in the carrier phrase "Say the word _' by two actresses (aged 26 and 64 years).
+  - Recordings were made of the set portraying each of seven emotions (anger, disgust, fear, happiness, pleasant surprise, sadness, and neutral).
+
+
+4. CREMA-D dataset
+  - Crowd Sourced Emotional Multimodal Actors Dataset
+    - 7442 files - 451 MB
+    - Male & Female
+    - [Kaggle Link](https://www.kaggle.com/ejlok1/cremad)
+  - These clips were from 48 male and 43 female actors (91 total) between the ages of 20 and 74 coming from a variety of races and ethnicities (African America, Asian, Caucasian, Hispanic, and Unspecified).
+  - Actors spoke from a selection of 12 sentences.
+  - The sentences were presented using one of six different emotions (Anger, Disgust, Fear, Happy, Neutral, and Sad) and four different emotion levels (Low, Medium, High, and Unspecified).
+
+## Datasets Summary
+Complete Dataset division:
+- 14 classes
+- 12,162 data points
+
+Polarity Classes:
+- negative    7692 = 63.25%
+- neutral     2547 = 20.94%
+- positive    1923 = 15.81%
+- Total: 12,162
+
+Emotion Classes:
+1. angry       1923 = 15.81%
+2. happy       1923 = 15.81%
+3. fear        1923 = 15.81%
+4. disgust     1923 = 15.81%
+5. sad         1923 = 15.81%
+6. neutral     1895 = 15.58%
+7. surprise     652 = 5.61%
+
+Polarity Gender Classes:
+- female_negative    4384
+- male_negative      3308
+- female_neutral     1552
+- female_positive    1096
+- male_neutral        995
+- male_positive       827
+- Total: 12,162
+
+Emotion Classes:
+- female_angry       1096
+- female_happy       1096
+- female_fear        1096
+- female_disgust     1096
+- female_sad         1096
+- female_neutral     1056
+- male_neutral        839
+- male_fear           827
+- male_sad            827
+- male_disgust        827
+- male_happy          827
+- male_angry          827
+- female_surprise     496
+- male_surprise       156
+- Total: 12,162
+
 ## Keyword Extraction Dataset
 Need to find
 

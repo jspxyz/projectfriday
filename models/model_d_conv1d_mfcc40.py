@@ -46,4 +46,11 @@ def model_d_conv1d(input_shape):
     model.add(Dense(3)) # Target class number
     model.add(Activation('softmax'))
 
+    # model optimizer
+    optimizer = tf.keras.optimizers.RMSprop(lr=0.000001, decay=1e-6)
+    # compile model
+    model.compile(loss='categorical_crossentropy',
+              optimizer=optimizer,
+              metrics=['accuracy'])
+
     return model

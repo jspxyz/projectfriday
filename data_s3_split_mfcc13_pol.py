@@ -1,6 +1,7 @@
 '''
 Data Processing Part 3
-Splitting with MFCC 40 features
+Splitting with MFCC 13 features
+Labels: Polarity
 '''
 
 import numpy as np
@@ -14,15 +15,15 @@ from sklearn.preprocessing import LabelEncoder
 ref_data_path = pd.read_csv('./Data_Array_Storage/Data_path.csv')
 
 # opening df_features
-with open('./Data_Array_Storage/data_features_mfcc40.pkl', 'rb') as f:
+with open('./Data_Array_Storage/data_features_mfcc13.pkl', 'rb') as f:
     df_features = pickle.load(f)
 
 # opening df_features_noise as pickle file
-with open('./Data_Array_Storage/data_features_noise_mfcc40.pkl', 'rb') as f:
+with open('./Data_Array_Storage/data_features_noise_mfcc13.pkl', 'rb') as f:
     df_features_noise = pickle.load(f)
 
 # opening error_list as pickle file
-with open('./Data_Array_Storage/error_list_40.pkl', 'rb') as f:
+with open('./Data_Array_Storage/error_list_mfcc13.pkl', 'rb') as f:
     error_list = pickle.load(f)
 
 print("Error list: ", len(error_list))
@@ -41,6 +42,8 @@ X_full = np.concatenate((df_features, df_features_noise),axis=0)
 print('X_full: ', X_full.shape)
 
 # drop the columns
+# 'gender','emotion','label_emotion', 'polarity', 'label_polarity','path','source'
+# keep polarity
 y_full = df_y_full.drop(['gender','emotion','label_emotion','label_polarity','path','source'],axis=1).to_numpy().squeeze()
 
 print('y_full after drop: ', y_full[:5])
@@ -53,11 +56,13 @@ indices = np.random.permutation(len(X_full))
 train_size = 0.8
 len_train_set = int(len(X_full) * train_size)
 
-X_train = X_full[:len_train_set]
-y_train = y_full[:len_train_set]
+X_shuffle = X_full[indices]
+y_shuffle = y_full[indices]
+X_train = X_shuffle[:len_train_set]
+y_train = y_shuffle[:len_train_set]
 
-X_test = X_full[len_train_set:]
-y_test = y_full[len_train_set:]
+X_test = X_shuffle[len_train_set:]
+y_test = y_shuffle[len_train_set:]
 
 print('shapes after np.random.permutation splits')
 print('X_train: ', X_train.shape)
@@ -132,14 +137,14 @@ print('y_test: ', y_test.shape)
 print('y_test top 5', y_test[:5])
 
 # save y_train, y_test
-with open('./Data_Array_Storage/y_train_mfcc40_axis0.pkl', 'wb') as f:
+with open('./Data_Array_Storage/y_train_mfcc13_axis0_pol.pkl', 'wb') as f:
     pickle.dump(y_train, f)
 
-with open('./Data_Array_Storage/y_test_mfcc40_axis0.pkl', 'wb') as f:
+with open('./Data_Array_Storage/y_test_mfcc13_axis0_pol.pkl', 'wb') as f:
     pickle.dump(y_test, f)
 
 # Pickel the lb object for future use 
-with open('./Data_Array_Storage/labels.pkl', 'wb') as f:
+with open('./Data_Array_Storage/labels_mfcc13_axis0_pol.pkl', 'wb') as f:
     pickle.dump(lb, f)
 
 # expanding X_train and X_test dimensions
@@ -154,10 +159,10 @@ with open('./Data_Array_Storage/labels.pkl', 'wb') as f:
 # print('y_test: ', y_test.shape)
 
 # saving X_train and X_test
-with open('./Data_Array_Storage/X_train_mfcc40_axis0.pkl', 'wb') as f:
+with open('./Data_Array_Storage/X_train_mfcc13_axis0_pol.pkl', 'wb') as f:
     pickle.dump(X_train, f)
 
-with open('./Data_Array_Storage/X_test_mfcc40_axis0.pkl', 'wb') as f:
+with open('./Data_Array_Storage/X_test_mfcc13_axis0_pol.pkl', 'wb') as f:
     pickle.dump(X_test, f)
 
 print('Pickle files saved. Final shpaes:')

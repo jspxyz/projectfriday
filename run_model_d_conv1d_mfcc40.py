@@ -27,7 +27,7 @@ with open('./Data_Array_Storage/y_test_mfcc40_axis0.pkl', 'rb') as f:
 input_shape = (X_train.shape[1], X_train.shape[2])
 
 model = model_d_conv1d(input_shape)
-optimizer = tf.keras.optimizers.RMSprop(lr=0.00001, decay=1e-6)
+model.summary()
 
 # callback list: ModelCheckpoint, reduceLROnPlat, EarlyStopping
 checkpoint_path = "./models_saved/model_d_conv1d.h5"
@@ -46,16 +46,14 @@ callbacks = [tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
                                                     min_lr=0.00001, 
                                                     verbose=1)]
 
-model.compile(loss='categorical_crossentropy',
-              optimizer=optimizer,
-              metrics=['accuracy'])
-
+batch_size = 16
 
 model_history=model.fit(X_train, 
                         y_train,
-                        batch_size=16,
+                        batch_size=batch_size,
                         epochs=150,
                         validation_data=(X_test, y_test),
                         verbose=2,
                         callbacks=callbacks)
 
+print('model training complete')
