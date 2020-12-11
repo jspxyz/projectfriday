@@ -106,7 +106,7 @@ with open('./Data_Array_Storage/data_features_noise_mfcc40.pkl', 'wb') as f:
 
 print('error_list shape: ', np.shape(error_list))
 # saving df_features_noise as pickle file
-with open('./Data_Array_Storage/error_list_40.pkl', 'wb') as f:
+with open('./Data_Array_Storage/error_list_mfcc40.pkl', 'wb') as f:
     pickle.dump(error_list, f)
 
 # misc. Code
