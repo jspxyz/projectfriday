@@ -1,3 +1,9 @@
+'''
+Data Processing Part 3
+Splitting with MFCC 13 AVG features
+Label: Polarity
+'''
+
 import numpy as np
 import pandas as pd
 import pickle
@@ -9,11 +15,11 @@ from sklearn.preprocessing import LabelEncoder
 ref_data_path = pd.read_csv('./Data_Array_Storage/Data_path.csv')
 
 # opening df_features
-with open('./Data_Array_Storage/data_features.pkl', 'rb') as f:
+with open('./Data_Array_Storage/data_features_mfccavg.pkl', 'rb') as f:
     df_features = pickle.load(f)
 
 # opening df_features_noise as pickle file
-with open('./Data_Array_Storage/data_features_noise.pkl', 'rb') as f:
+with open('./Data_Array_Storage/data_features_noise_mfccavg.pkl', 'rb') as f:
     df_features_noise = pickle.load(f)
 
 # combining path with features
@@ -25,9 +31,10 @@ df_features_all = pd.concat([df_path_features,df_path_features_noise],axis=0,sor
 df_final = df_features_all.fillna(0)
 
 # Split between train and test 
+# assigning polarity as label
 X_train, X_test, y_train, y_test = train_test_split(df_final.drop(['gender','emotion','label_emotion','polarity','label_polarity','path','source'],axis=1),
                                                     df_final.polarity,
-                                                    test_size=0.25,
+                                                    test_size=0.2,
                                                     shuffle=True,
                                                     random_state=42)
 
@@ -59,64 +66,33 @@ print('y_test: ', y_test.shape)
 print('y_test top 5', y_test[:5])
 
 
-# # save y_train, y_test
-# with open('./Data_Array_Storage/y_train.pkl', 'wb') as f:
-#     pickle.dump(y_train, f)
+# save y_train, y_test
+with open('./Data_Array_Storage/y_train_mfccavg_axis0_pol.pkl', 'wb') as f:
+    pickle.dump(y_train, f)
 
-# with open('./Data_Array_Storage/y_test.pkl', 'wb') as f:
-#     pickle.dump(y_test, f)
+with open('./Data_Array_Storage/y_test_mfccavg_axis0_pol.pkl', 'wb') as f:
+    pickle.dump(y_test, f)
 
-# # Pickel the lb object for future use 
-# with open('./Data_Array_Storage/labels.pkl', 'wb') as f:
-#     pickle.dump(lb, f)
+# Pickel the lb object for future use 
+with open('./Data_Array_Storage/labels_mfccavg_axis0_pol.pkl', 'wb') as f:
+    pickle.dump(lb, f)
 
-# # expanding X_train and X_test dimensions
-# X_train = np.expand_dims(X_train, axis=2)
-# X_test = np.expand_dims(X_test, axis=2)
+# expanding X_train and X_test dimensions
+X_train = np.expand_dims(X_train, axis=-1)
+X_test = np.expand_dims(X_test, axis=-1)
 
-# # saving X_train and X_test
-# with open('./Data_Array_Storage/X_train.pkl', 'wb') as f:
-#     pickle.dump(X_train, f)
+# saving X_train and X_test
+with open('./Data_Array_Storage/X_train_mfccavg_axis0_pol.pkl', 'wb') as f:
+    pickle.dump(X_train, f)
 
-# with open('./Data_Array_Storage/X_test.pkl', 'wb') as f:
-#     pickle.dump(X_test, f)
+with open('./Data_Array_Storage/X_test_mfccavg_axis0_pol.pkl', 'wb') as f:
+    pickle.dump(X_test, f)
 
-# print('Shape after format for keras')
-# print('X_train: ', X_train.shape)
-# print('X_test: ', X_test.shape)
-# print('y_train: ', y_train.shape)
-# print('y_test: ', y_test.shape)
+print('Shape after format for keras')
+print('X_train: ', X_train.shape)
+print('X_test: ', X_test.shape)
+print('y_train: ', y_train.shape)
+print('y_test: ', y_test.shape)
 
-# print(X_train[:10])
-# print(y_train[:10])
-
-# # testing when could not convert numpy to tensor
-# # due to missing features tolist portion
-# # X_train_tensor = tf.convert_to_tensor(X_train)
-
-# # print(type(X_train_tensor))
-
-# # with open('./Data_Array_Storage/X_train.npy', 'wb') as f:
-# #     np.save(f, X_train)
-
-# # with open('test.npy', 'wb') as f:
-# #     np.save(f, np.array([1, 2]))
-# #     np.save(f, np.array([1, 3]))
-# # with open('test.npy', 'rb') as f:
-# #     a = np.load(f)
-# #     b = np.load(f)
-# # print(a, b)
-# # [1 2] [1 3]
-
-# # with open('example.pkl', 'wb') as f:
-# #     pickle.dump(df, f)
-
-# # example: saving df_features as pickle file
-# # with open('./Data_Array_Storage/data_features.pkl', 'wb') as f:
-# #     pickle.dump(df_features, f)
-
-# # old method to pickle file
-#     # filename = 'labels'
-#     # outfile = open(filename,'wb')
-#     # pickle.dump(lb,outfile)
-#     # outfile.close()
+print(X_train[:10])
+print(y_train[:10])

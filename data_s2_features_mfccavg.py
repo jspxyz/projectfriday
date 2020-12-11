@@ -1,4 +1,10 @@
-# 
+'''
+Data Processing Step 2
+Pulls features from wav audio files
+This version pulls MFCC 13 features as an average
+'''
+
+
 # libraries
 import librosa
 import numpy as np
@@ -24,10 +30,12 @@ df_features_noise = pd.DataFrame(columns=['feature'])
 # df_features_speedpitch = pd.DataFrame(columns=['feature'])
 # cnt = 0
 
+error_list = []
+
 # loop feature extraction over the entire dataset
 for i, path in enumerate(tqdm(ref_data_path.path)):
     try:
-    # first load the audio 
+        # first load the audio 
         X, sample_rate = librosa.load(path,
                                     res_type='kaiser_fast',
                                     duration=2.5,
@@ -50,7 +58,7 @@ for i, path in enumerate(tqdm(ref_data_path.path)):
                                         axis=0)
         df_features_noise.loc[i] = [aug]
 
-                # random shifting (omit for now)
+        # random shifting (omit for now)
         # Stretch
         # pitch (omit for now)
         # dyn change
@@ -65,15 +73,23 @@ for i, path in enumerate(tqdm(ref_data_path.path)):
 
         # cnt += 1
     except Exception as err:
+        error_list.append(path)
         print('Error in processing', err)
 
+print('df_features shape: ', np.shape(df_features))
 # saving df_features as pickle file
-with open('./Data_Array_Storage/data_features.pkl', 'wb') as f:
+with open('./Data_Array_Storage/data_features_mfccavg.pkl', 'wb') as f:
     pickle.dump(df_features, f)
 
+print('df_features_noise shape: ', np.shape(df_features_noise))
 # saving df_features_noise as pickle file
-with open('./Data_Array_Storage/data_features_noise.pkl', 'wb') as f:
+with open('./Data_Array_Storage/data_features_noise_mfccavg.pkl', 'wb') as f:
     pickle.dump(df_features_noise, f)
+
+print('error_list shape: ', np.shape(error_list))
+# saving df_features_noise as pickle file
+with open('./Data_Array_Storage/error_list_mfccavg.pkl', 'wb') as f:
+    pickle.dump(error_list, f)
 
 # misc. Code
 # df_features.to_csv("./Data_CSV/Data_features.csv",index=False)
