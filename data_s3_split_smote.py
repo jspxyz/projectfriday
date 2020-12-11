@@ -102,7 +102,7 @@ y_test_smote = np.array(y_test_smote)
 # one hot encode the target 
 lb_smote = LabelEncoder()
 y_train_smote = tf.keras.utils.to_categorical(lb_smote.fit_transform(y_train_smote)) # tf.keras.utils.to_categorical
-y_test_smote = tf.keras.utils.to_categorical(lb_smote.fit_transform(y_test_smote))
+y_test_smote = tf.keras.utils.to_categorical(lb_smote.transform(y_test_smote))
 
 # save y_train_smote, y_test_smote
 with open('./Data_Array_Storage/y_train_smote.pkl', 'wb') as f:

@@ -1,7 +1,8 @@
 '''
 Data Processing Part 3
 Splitting with MFCC 40 features
-Labels: Emotions
+Undersampling, No Data Normalization
+Labels: Emotion
 '''
 
 import numpy as np
@@ -10,6 +11,9 @@ import pickle
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
+
+from collections import Counter
+from imblearn.under_sampling import NearMiss
 
 # calling the Data Path file
 ref_data_path = pd.read_csv('./Data_Array_Storage/Data_path.csv')
@@ -43,83 +47,76 @@ print('X_full: ', X_full.shape)
 
 # drop the columns
 # 'gender','emotion','label_emotion', 'polarity', 'label_polarity','path','source'
-# keep emotion
+# keep polarity
 y_full = df_y_full.drop(['gender','label_emotion','polarity', 'label_polarity','path','source'],axis=1).to_numpy().squeeze()
 
 print('y_full after drop: ', y_full[:5])
+print('y_full shape after drop: ', y_full.shape)
 
-# set random seed
-np.random.seed(42)
+# reshape to undersample
+X_full_reshape = X_full.reshape((X_full.shape[0],-1))
+print('X_full_under shape: ', X_full_reshape.shape)
 
-# set indices to randomize
-indices = np.random.permutation(len(X_full))
-train_size = 0.8
-len_train_set = int(len(X_full) * train_size)
+# create undersampler
+undersample = NearMiss (sampling_strategy = "not minority")
 
-X_shuffle = X_full[indices]
-y_shuffle = y_full[indices]
-X_train = X_shuffle[:len_train_set]
-y_train = y_shuffle[:len_train_set]
+print('Starting undersampling...')
+X_under, y_under = undersample.fit_resample(X_full_reshape, y_full)
 
-X_test = X_shuffle[len_train_set:]
-y_test = y_shuffle[len_train_set:]
+y_counter = Counter(y_under)
+print('Information after undersampling')
+print('y_under count: ', y_counter)
 
-print('shapes after np.random.permutation splits')
-print('X_train: ', X_train.shape)
+print('Under set shapes:')
+print('X_under shape: ', X_under.shape)
+print('y_under shape: ', y_under.shape)
+
+X_train_reshape, X_test_reshape, y_train, y_test = train_test_split(X_under,
+                                                     y_under,
+                                                     test_size=0.1,
+                                                     shuffle=True,
+                                                     random_state=42)
+
+print('Shapes after train_test_splits')
+print('X_train_reshape: ', X_train_reshape.shape)
 print('y_train: ', y_train.shape)
-print('X_test: ', X_test.shape)
+print('X_test_reshape: ', X_test_reshape.shape)
 print('y_test: ', y_test.shape)
 
-print('y_test header 5')
-print(y_test[:5])
+# need to reshape
+print('Reshaping X back to original shape...')
 
-print('X_test header 3')
-print(X_test[:3])
+X_train = X_train_reshape.reshape((X_train_reshape.shape[0], X_full.shape[1], X_full.shape[2]))
+X_test = X_test_reshape.reshape((X_test_reshape.shape[0], X_full.shape[1], X_full.shape[2]))
 
-# combining path with features
-# changing features to list
-# df_path_features = pd.concat([ref_data_path,pd.DataFrame(df_features['feature'].values.tolist())],axis=1)
-# df_path_features_noise = pd.concat([ref_data_path,pd.DataFrame(df_features_noise['feature'].values.tolist())],axis=1)
+print('Reshaped X sets are now: ')
+print('X_train: ', X_train.shape)
+print('X_test: ', X_test.shape)
+print('y_train: ', y_train.shape)
+print('y_test: ', y_test.shape)
 
-# df_features_all = pd.concat([df_path_features,df_path_features_noise],axis=0,sort=False) # ,df_speedpitch
-# df_final = df_features_all.fillna(0)
+# # Data normalization 
+# # original 
+# mean = np.mean(X_train, axis=0)
+# std = np.std(X_train, axis=0)
 
-# df_final = pd.concat([ref_data_path, pd.DataFrame(df_features)],axis=1)
+# # new methood to data normazilie over each individual
+# # mean = np.mean(np.reshape(X_train, (X_train.shape[0], -1)), axis=1) # (1000,)
+# # std = np.std(np.reshape(X_train, (X_train.shape[0], -1)), axis=1)   # (1000,)
 
-# # Split between train and test 
-# X_train, X_test, y_train, y_test = train_test_split(df_final.drop(['gender','emotion','label_emotion','polarity','label_polarity','path','source'],axis=1),
-#                                                     df_final.polarity,
-#                                                     test_size=0.25,
-#                                                     shuffle=True,
-#                                                     random_state=42)
+# X_train = (X_train - mean)/std
+# X_test = (X_test - mean)/std
 
-# print('Shape after train_test_split')
+# print('Shape after data normalization for X_ only')
 # print('X_train: ', X_train.shape)
 # print('X_test: ', X_test.shape)
 # print('y_train: ', y_train.shape)
 # print('y_test: ', y_test.shape)
 
-# Data normalization 
-# original 
-mean = np.mean(X_train, axis=0)
-std = np.std(X_train, axis=0)
-
-# new methood to data normazilie over each individual
-# mean = np.mean(np.reshape(X_train, (X_train.shape[0], -1)), axis=1) # (1000,)
-# std = np.std(np.reshape(X_train, (X_train.shape[0], -1)), axis=1)   # (1000,)
-
-X_train = (X_train - mean)/std
-X_test = (X_test - mean)/std
-
-print('Shape after data normalization for X_ only')
-print('X_train: ', X_train.shape)
-print('X_test: ', X_test.shape)
-print('y_train: ', y_train.shape)
-print('y_test: ', y_test.shape)
-
 # one hot encode the target 
+print('one hot label y sets...')
 lb = LabelEncoder()
-y_train = tf.keras.utils.to_categorical(lb.fit_transform(y_train)) # tf.keras.utils.to_categorical
+y_train = tf.keras.utils.to_categorical(lb.fit_transform(y_train))
 y_test = tf.keras.utils.to_categorical(lb.transform(y_test))
 
 print('Shape after one hot encode (for y_ only)')
@@ -129,17 +126,16 @@ print('y_train: ', y_train.shape)
 print('y_test: ', y_test.shape)
 
 print('y_test top 5', y_test[:5])
-print('y_train top 5' , y_train[:5])
 
 # save y_train, y_test
-with open('./Data_Array_Storage/y_train_mfcc40_axis0_emo.pkl', 'wb') as f:
+with open('./Data_Array_Storage/y_train_mfcc40_emo_0dn_us.pkl', 'wb') as f:
     pickle.dump(y_train, f)
 
-with open('./Data_Array_Storage/y_test_mfcc40_axis0_emo.pkl', 'wb') as f:
+with open('./Data_Array_Storage/y_test_mfcc40_emo_0dn_us.pkl', 'wb') as f:
     pickle.dump(y_test, f)
 
 # Pickel the lb object for future use 
-with open('./Data_Array_Storage/labels_mfcc40_axis0_emo.pkl', 'wb') as f:
+with open('./Data_Array_Storage/labels_mfcc40_emo_0dn_us.pkl', 'wb') as f:
     pickle.dump(lb, f)
 
 # expanding X_train and X_test dimensions
@@ -154,14 +150,14 @@ with open('./Data_Array_Storage/labels_mfcc40_axis0_emo.pkl', 'wb') as f:
 # print('y_test: ', y_test.shape)
 
 # saving X_train and X_test
-with open('./Data_Array_Storage/X_train_mfcc40_axis0_emo.pkl', 'wb') as f:
+with open('./Data_Array_Storage/X_train_mfcc40_emo_0dn_us.pkl', 'wb') as f:
     pickle.dump(X_train, f)
 
-with open('./Data_Array_Storage/X_test_mfcc40_axis0_emo.pkl', 'wb') as f:
+with open('./Data_Array_Storage/X_test_mfcc40_emo_0dn_us.pkl', 'wb') as f:
     pickle.dump(X_test, f)
 
 print('Pickle files saved. Final shpaes:')
 print('X_train: ', X_train.shape)
 print('X_test: ', X_test.shape)
 print('y_train: ', y_train.shape)
-print('y_test: ', y_test.shape) 
+print('y_test: ', y_test.shape)

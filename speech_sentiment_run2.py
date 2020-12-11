@@ -111,7 +111,7 @@ def main():
     # recorder = Recorder("speech.wav")
     # record function from test_recorder2.py
     # returns WAVE_OUTPUT_FILENAME
-    audio = record()
+    audio = record(5)
 
     # print("Please say something nice into the microphone\n")
     # recorder.record_to_file()

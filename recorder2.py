@@ -5,7 +5,7 @@ CHUNK = 1024
 FORMAT = pyaudio.paInt16 
 CHANNELS = 1 
 RATE = 44100 
-# RECORD_SECONDS = 10
+# RECORD_SECONDS = 5
 WAVE_OUTPUT_FILENAME = "test_r2_testing.wav"
 
 def record(RECORD_SECONDS):
@@ -41,6 +41,6 @@ def record(RECORD_SECONDS):
     return WAVE_OUTPUT_FILENAME
 
 
-# r = record()
+# r = record(5)
 
 # print(r)

@@ -135,7 +135,7 @@ y_test_under = np.array(y_test_under)
 # one hot encode the target 
 lb_under = LabelEncoder()
 y_train_under = tf.keras.utils.to_categorical(lb_under.fit_transform(y_train_under)) # tf.keras.utils.to_categorical
-y_test_under = tf.keras.utils.to_categorical(lb_under.fit_transform(y_test_under))
+y_test_under = tf.keras.utils.to_categorical(lb_under.transform(y_test_under))
 
 # save y_train_under, y_test_under
 with open('./Data_Array_Storage/y_train_under.pkl', 'wb') as f:

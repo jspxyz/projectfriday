@@ -121,7 +121,7 @@ print('y_test: ', y_test.shape)
 # one hot encode the target 
 lb = LabelEncoder()
 y_train = tf.keras.utils.to_categorical(lb.fit_transform(y_train)) # tf.keras.utils.to_categorical
-y_test = tf.keras.utils.to_categorical(lb.fit_transform(y_test))
+y_test = tf.keras.utils.to_categorical(lb.transform(y_test))
 
 print('Shape after one hot encode (for y_ only)')
 print('X_train: ', X_train.shape)
