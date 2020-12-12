@@ -1,16 +1,3 @@
-# original gitignore
-__pycache__
-.ipynb_checkpoints
-config
-data
-Data_Array_Storage
-Data_Array_Storage_VM
-entries
-models_saved
-zArchived
-
-# items added from Flask Theme import
-# added on 20201212
 # byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -1,0 +1,247 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE  -->
+{% block stylesheets %}
+<link href="/static/assets/custom.css" rel="stylesheet">
+{% endblock stylesheets %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/skycons/1396634940/skycons.min.js"></script> <!--icons-->
+<script type="text/javascript" src="/static/assets/custom.js"></script> <!--custom.js-->
+{% endblock javascripts %}
+
+{% block content %}
+
+<div class="row gap-20 masonry pos-r">
+  <div class="masonry-sizer col-md-6"></div>
+
+    <!-- Our Top Panel ==================== -->
+  <div class="masonry-item w-100 top_panel">
+    <div class="row gap-20">
+
+      <!-- Rain Chance ==================== -->
+      <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">Today Rain Chance</h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <span id="sparklinedash"></span>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500 rain_chance">10%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ozone Level ==================== -->
+      <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">Today Ozone Level</h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <span id="sparklinedash2"></span>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500 ozone">5 DU</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wind Direction ==================== -->
+      <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">Wind Direction</h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <span id="sparklinedash3"></span>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500 wind_direction">145°</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- #Humidity ==================== -->
+      <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">Humidity</h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <span id="sparklinedash4"></span>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500 humidity">33%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- #Line Chart  ==================== -->
+  <div class="masonry-item col-md-6">
+    <!-- #Weekly Temperature Stats ==================== -->
+    <div class="bd bgc-white">
+      <div class="layers">
+        <div class="layer w-100 pX-20 pT-20">
+          <h6 class="lh-1">Tempature of the week</h6>
+        </div>
+        <div class="layer w-100 p-20">
+          <canvas id="line-chart-weather" height="220"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- #Weather Card Dashboard ==================== -->
+  <div class="masonry-item col-md-6 weather-dashboard">
+    <!-- #Weather ==================== -->
+    <div class="bd bgc-white p-20">
+      <div class="layers">
+        <!-- Widget Title -->
+        <div class="layer w-100 mB-20">
+          <h6 class="lh-1 timezone">Timezone</h6>
+        </div>
+
+        <!-- Today Weather -->
+        <div class="layer w-100 today">
+          <div class="peers ai-c jc-sb fxw-nw">
+            <div class="peer peer-greed">
+              <div class="layers">
+                <!-- Temprature -->
+                <div class="layer w-100">
+                  <div class="peers fxw-nw ai-c">
+                    <div class="peer mR-20">
+                      <h3 class="temp">32<sup>°C</sup></h3>
+                    </div>
+                    <div class="peer">
+                      <canvas id="today-icon" width="44" height="44"></canvas>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Condition -->
+                <div class="layer w-100">
+                  <span class="fw-600 c-grey-600 description">Partly Clouds</span>
+                </div>
+              </div>
+            </div>
+            <div class="peer side">
+              <div class="layers ai-fe">
+                <div class="layer">
+                  <h5 class="mB-5 day">Monday</h5>
+                </div>
+                <div class="layer">
+                  <span class="fw-600 c-grey-600 date">Nov, 01 2017</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Today Weather Extended -->
+        <div class="layer w-100 mY-30 extend">
+          <div class="layers bdB">
+            <div class="layer w-100 bdT pY-5">
+              <div class="peers ai-c jc-sb fxw-nw">
+                <div class="peer">
+                  <span>Wind</span>
+                </div>
+                <div class="peer ta-r">
+                  <span class="fw-600 c-grey-800"> <span class="windspeed">10</span> km/h</span>
+                </div>
+              </div>
+            </div>
+            <div class="layer w-100 bdT pY-5">
+              <div class="peers ai-c jc-sb fxw-nw">
+                <div class="peer">
+                  <span>UV Index</span>
+                </div>
+                <div class="peer ta-r">
+                  <span class="fw-600 c-grey-800 uv">5</span>
+                </div>
+              </div>
+            </div>
+            <div class="layer w-100 bdT pY-5">
+              <div class="peers ai-c jc-sb fxw-nw">
+                <div class="peer">
+                  <span>Pressure</span>
+                </div>
+                <div class="peer ta-r">
+                  <span class="fw-600 c-grey-800 pressure">1B</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Week Forecast -->
+        <div class="layer w-100">
+          <div class="peers peers-greed ai-fs ta-c weekly">
+
+            <div class="peer">
+              <h6 class="mB-10">MON</h6>
+              <canvas class="sleet" width="30" height="30"></canvas>
+              <span class="d-b fw-600">32<sup>°F</sup></span>
+            </div>
+            <div class="peer">
+              <h6 class="mB-10">TUE</h6>
+              <canvas class="clear-day" width="30" height="30"></canvas>
+              <span class="d-b fw-600">30<sup>°F</sup></span>
+            </div>
+            <div class="peer">
+              <h6 class="mB-10">WED</h6>
+              <canvas class="partly-cloudy-day" width="30" height="30"></canvas>
+              <span class="d-b fw-600">28<sup>°F</sup></span>
+            </div>
+            <div class="peer">
+              <h6 class="mB-10">THR</h6>
+              <canvas class="cloudy" width="30" height="30"></canvas>
+              <span class="d-b fw-600">32<sup>°F</sup></span>
+            </div>
+            <div class="peer">
+              <h6 class="mB-10">FRI</h6>
+              <canvas class="snow" width="30" height="30"></canvas>
+              <span class="d-b fw-600">24<sup>°F</sup></span>
+            </div>
+            <div class="peer">
+              <h6 class="mB-10">SAT</h6>
+              <canvas class="wind" width="30" height="30"></canvas>
+              <span class="d-b fw-600">28<sup>°F</sup></span>
+            </div>
+            <div class="peer">
+              <h6 class="mB-10">SUN</h6>
+              <canvas class="sleet" width="30" height="30"></canvas>
+              <span class="d-b fw-600">32<sup>°F</sup></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+            
+{% endblock content %}
