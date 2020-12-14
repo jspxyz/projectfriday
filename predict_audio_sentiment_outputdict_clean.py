@@ -43,6 +43,8 @@ nlu_api_url = config_nlu_api_url
 # empty dictionary to save results
 results_dict = {}
 
+filepath = './entries/audio/test_r2_testing.wav'
+
 # working function taken from w_test_s2t_request.py file
 # Watson API function to transcribe speech to text
 def transcribe_audio(path_to_audio_file):
@@ -168,9 +170,8 @@ def main():
     # recorder = Recorder("speech.wav")
     # record function from test_recorder2.py
     # returns WAVE_OUTPUT_FILENAME
-    print('Spinning up the recorder...')
-    print('Record now, please!')
-    audio = record(5)
+    print('The audio filepath is: ', filepath)
+    audio = filepath
 
     print('This is what you recorded!')
     os.system("afplay " + audio)

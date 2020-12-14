@@ -31,11 +31,20 @@ function gotBuffers(buffers) {
     audioRecorder.exportMonoWAV(doneEncoding);
 }
 
+
+        
 /* 20201212 1604 - changed /audio to /recorder */
 function doneEncoding(soundBlob) {
     // fetch('/audio', {method: "POST", body: soundBlob}).then(response => $('#output').text(response.text()))
     fetch('/recorder', {method: "POST", body: soundBlob}).then(response => response.text().then(text => {
-        document.getElementById('output').value = text;
+        res = JSON.parse(text);
+        document.getElementById('output').value = res[0];
+        console.log(res[1]);
+
+        
+
+        document.getElementById("prediction").innerHTML= JSON.stringify(res[1]);
+
     }));
     recIndex++;
 }
