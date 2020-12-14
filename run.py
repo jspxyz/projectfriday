@@ -72,9 +72,11 @@ def audio():
     # with open('./entries/audio.wav', 'wb') as f:
     #     f.write(request.data)
     proc = run(['ffprobe', '-of', 'default=noprint_wrappers=1', audio_filepath], text=True, stderr=PIPE)
-
+    result = proc.stderr
+    result = '\n'.join(result.split("\n")[-4:])
     # predictions = get_audio_sentiment(audio_filepath)
-    return proc.stderr #, audio_filepath
+    return result #, audio_filepath
+    
 
 # def preprocess_audio_sentiment(audio_filepath):
 #     entry = audio_filepath
