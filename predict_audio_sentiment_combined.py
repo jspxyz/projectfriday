@@ -158,7 +158,7 @@ def get_audio_sentiment(path_to_audio_file):
     prob_index = probability.argmax(axis=1) # this outputs the highest index - example: [1]
     # print('probability.argmax: ', prob_index)
 
-    pred_label = classes[prob_index]
+    # pred_label = classes[prob_index]
     # print('classes[prob_index]: ', pred_label)
 
     # final = final.astype(int).flatten()

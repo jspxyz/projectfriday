@@ -6,6 +6,7 @@ data
 Data_Array_Storage
 Data_Array_Storage_VM
 entries
+jupyter_files_ignore
 models_saved
 zArchived
 
