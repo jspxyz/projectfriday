@@ -2,6 +2,7 @@
 This file is for Watson API.
 Uses Recorder2 to save audio and uses s2t and nlu api to get text, confidence of text, and sentiment.
 Last Updated: 2020.12.01
+Update on 20201208 0950 to show text sentiment results and output
 '''
 
 import os
@@ -120,30 +121,51 @@ def main():
     # result = transcribe_audio('speech.wav')
     transcribe_audio_result = transcribe_audio(audio)
 
-    # print('-'*10)
-    # print(type(transcribe_audio_result))
-    # print(len(transcribe_audio_result))
-    # print('-'*10)
-
-    # print(transcribe_audio_result)
-    # print('-'*10)
-    # print(transcribe_audio_result['results'])
-    # print(transcribe_audio_result['results'][0])
-    # print(transcribe_audio_result['results'][0]['alternatives'])
-    # print(transcribe_audio_result['results'][0]['alternatives'][0])
-    # print(transcribe_audio_result['results'][0]['alternatives'][0]['transcript'])
-    # print('-'*10)
-
     text = transcribe_audio_result['results'][0]['alternatives'][0]['transcript']
-    confidence = transcribe_audio_result['results'][0]['alternatives'][0]['confidence']
+    text_confidence = transcribe_audio_result['results'][0]['alternatives'][0]['confidence']
     print("Text: " + text + "\n")
-    print("Confidence: " + str(confidence) + "\n")
+    print("Confidence: " + str(text_confidence) + "\n")
     
     print("Analyzing sentiment...\n")
-    sentiment = get_text_sentiment(text)
-    # sentiment, score = get_text_sentiment(text)
-    print(sentiment)
-    # print(sentiment, score)  
+
+    text_sentiment_results = get_text_sentiment(text)
+
+    print('-'*10)
+    print('this is the text analyzsis result: ', text_sentiment_results)
+    
+    # example of text_sentiment_results output
+    # {'usage': 
+        # {'text_units': 1, 'text_characters': 49, 'features': 1},
+    # 'language': 'en', 
+    # 'keywords': 
+        # [{'text': 'gonna work', 
+        # 'sentiment': {'score': 0.700857, 'label': 'positive'}, 
+        # 'relevance': 0.5, 
+        # 'emotion': {'sadness': 0.20298, 'joy': 0.212794, 'fear': 0.180043, 'disgust': 0.058423, 'anger': 0.107078}, 
+        # 'count': 1}]}
+
+    print('-'*10)
+    print('text_sentiment_results[keywords]: ', text_sentiment_results['keywords'])
+    print('-'*10)
+    print('text_sentiment_results[keywords][0]: ', text_sentiment_results['keywords'][0])
+    print('-'*10)
+    # the below will be assigned to the text sentiment polarity variable
+    print('text_sentiment_results[keywords][0][sentiment][label] output is the prediction label: ', text_sentiment_results['keywords'][0]['sentiment']['label'])
+    print('-'*10)
+    print('emotion probs_list: ', text_sentiment_results['keywords'][0]['emotion'])
+
+
+    print('text keywords are: ', text_sentiment_results['keywords'][0]['text'])
+    print('-'*10)
+
+    print('-'*10)
+    text_sentiment_polarity = text_sentiment_results['keywords'][0]['sentiment']['label']
+    print('text sentiment polarity is: ', text_sentiment_polarity)
+
+    # getting emotion list
+    emotion_dict = text_sentiment_results['keywords'][0]['emotion']
+    emotion_max = max(emotion_dict, key=emotion_dict.get)
+    print('text sentiment emotion is: ', emotion_max)
 
 if __name__ == '__main__':
     # dotenv_path = join(dirname(__file__), '.env')

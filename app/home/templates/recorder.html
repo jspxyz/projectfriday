@@ -19,9 +19,6 @@
 
 <!-- https://github.com/danijel3/audio_gui/blob/master/templates/index.html-->
 <!-- updated 2020.12.05 -->
-
-
-
 <div class="container">
     <canvas id="analyser" style="width:100%;height:300px;background-color: gray" width="1024" height="500"></canvas>
     <p>
@@ -36,7 +33,57 @@
 <script src="static/js/recorder.js"></script>
 <script src="static/js/main.js"></script>
 
-            
+<!--trying to get button to do prediction-->
+<div class="row">
+    <div class="col-md-6">
+        <form action="/predict" method ="post">
+            <div id= "btn-capture-image" class="btn btn-lg btn-primary">Predict Now</div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <div id="results">
+            <h3 id='class-result'>Predictions:</h3>
+
+                <div id="results-prediction">
+                    <p id="prediction"></p>
+                    <p id="probs"></p>
+                </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<form action="/checkin" method="post">
+    <input type="text" name="student_name" id="">
+    <button type="submit" class="btn btn-lg btn-primary">Check-in now</button>
+</form>
+-->
+
+
+<!--code from VND Classifier home_page.html-->
+<!--
+<div class="row">
+    <div class="col-md-6">
+        <div id="my-camera"></div>
+        <br>
+        <form id="form-capture-image">
+            <div id= "btn-capture-image" class="btn btn-lg btn-primary">Predict Now</div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <div id="results">
+            <h3 id='class-result'>Predictions:</h3>
+
+                <div id="results-prediction">
+                    <p id="prediction"></p>
+                    <p id="probs"></p>
+                </div>
+        </div>
+    </div>
+</div>
+-->
+
+
 {% endblock content %}
 
 <!--removed code-->

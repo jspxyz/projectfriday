@@ -13,13 +13,14 @@ from app import create_app, db
 
 # recorder input libraries
 from subprocess import run, PIPE
-from flask import logging, Flask, render_template, request
+from flask import logging, Flask, render_template, request, jsonify
 import datetime
 import os
 
 # prediction import libraries
 import librosa
 import numpy as np
+import pickle
 import tensorflow as tf
 
 # WARNING: Don't run with debug turned on in production!
@@ -53,7 +54,9 @@ def audio():
     # with open('./entries/audio.wav', 'wb') as f:
     #     f.write(request.data)
     proc = run(['ffprobe', '-of', 'default=noprint_wrappers=1', filepath], text=True, stderr=PIPE)
-    return proc.stderr, filepath
+
+    predictions = predict_audio_sentiment(filepath)
+    return proc.stderr, predictions
 
 def preprocess_audio_sentiment(filepath):
     entry = filepath
@@ -77,33 +80,46 @@ def preprocess_audio_sentiment(filepath):
     return mfccs
 
 @app.route('/predict/', methods=['POST'])
-def predict_audio_sentiment(mfccs):
+def predict_audio_sentiment(filepath):
+    mfccs = preprocess_audio_sentiment(filepath)
+    
     probability = model.predict(mfccs) # add batch_size and verbose?
 
     with open('./Data_Array_Storage/labels.pkl', 'rb') as f:
-        labels = pickle.load(f)
+        lb = pickle.load(f)
 
-    prediction = probability
-    prediction = final.astype(int).flatten()
-    prediction = (labels.inverse_transform((predition)))
+    classes = lb.classes_
 
+    prob_index = probability.argmax(axis=1)
+    # prediction = final.astype(int).flatten() # doesn't seem like i need this
+    prediction = lb.inverse_transform((prob_index))
+    # prediction = classes[prob_index] # does the same as above:
 
-    label = np.argmax(probability, axis=1)
+    # sending probability to list
+    prob_list = probability[0].tolist()
 
-    
+    # creating class_prob dictionary
+    class_prob = [(classes[i], prob_list[i]) for i in range(len(classes))]
 
-# output prediction
-filename = '/content/labels'
-infile = open(filename,'rb')
-lb = pickle.load(infile)
-infile.close()
-
-# Get the final predicted label
-final = newpred.argmax(axis=1)
-final = final.astype(int).flatten()
-final = (lb.inverse_transform((final)))
-print(final) 
+    return jsonify({'label': prediction, 'probability': class_prob})
 
 if __name__ == "__main__":
     app.logger = logging.getLogger() # 'audio-gui'
     app.run()
+
+
+# prediction code
+# Get the final predicted label
+# final = newpred.argmax(axis=1)
+# final = final.astype(int).flatten()
+# final = (lb.inverse_transform((final)))
+# print(final) 
+
+# code from vnd classifier def predict()
+    # probs = model.predict(image)
+    # label = np.argmax(probs, axis=1)
+    # label = class_names[label[0]]
+    # probs = probs[0].tolist()
+    # probs = [(probs[i], class_names[i]) for i in range(len(class_names))]
+ 
+    # return jsonify({'label': label, 'probs': probs}) 
