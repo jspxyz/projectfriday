@@ -1,5 +1,5 @@
-/* https://github.com/danijel3/audio_gui/blob/master/static/recorderWorker.js */
-/* https://github.com/cwilso/AudioRecorder/blob/master/js/recorderjs/recorderWorker.js */
+/* https://github.com/danijel3/audio_gui/blob/master/staticWorker.js */
+/* https://github.com/cwilso/AudioRecorder/blob/master/jsjsWorker.js */
 /* created on 2020.12.05 */
 
 /*License (MIT)

@@ -12,7 +12,6 @@ import numpy as np
 import pickle
 import tensorflow as tf
 
-
 import os
 import json
 from os.path import join, dirname
@@ -52,18 +51,18 @@ def transcribe_audio(path_to_audio_file):
     # removed dirname(__file__) at beginning of join()
     with open(join('./.', path_to_audio_file),
                 'rb') as audio_file:
-        speech_recognition_results = speech_to_text.recognize(
+        s2t_results = speech_to_text.recognize(
             audio=audio_file,
             content_type='audio/wav'
             # word_alternatives_threshold=0.9,
             # keywords=['colorado', 'tornado', 'tornadoes'],
             # keywords_threshold=0.5
         ).get_result()
-    # print(type(speech_recognition_results))
-    # found that speech_recognition_results is a dictionary
+    # print(type(s2t_results))
+    # found that s2t_results is a dictionary
     # removing the below because json.dumps converts into a string
-    # transcribe_audio_result = json.dumps(speech_recognition_results, indent=2)
-    return speech_recognition_results
+    # transcribe_audio_result = json.dumps(s2t_results, indent=2)
+    return s2t_results
 
 # code taken from w_test_nlu_keywords.py
 # Watson API function to get text sentiment
@@ -81,18 +80,18 @@ def get_text_sentiment(text):
     # with open(text_to_analyze) as f:
     #     contents = f.readlines()
 
-    response = natural_language_understanding.analyze(
+    nlu_response = natural_language_understanding.analyze(
         # url='www.ibm.com',
         # text=' '.join(contents),
         text=text,
         features=Features(keywords=KeywordsOptions(sentiment=True,emotion=True,limit=2))).get_result()
 
     # print(json.dumps(response, indent=2))
-    return response
+    return nlu_response
 
 # function to get audio sentiment
 # code pulled from predict_audio_sentiment_mfcc40
-def get_audio_sentiment(path_to_audio_file):
+def get_audio_sentiment_pol(path_to_audio_file):
     print('Loading audio sentiment model...')
     # loading model with just h5
     # Recreate the exact same model, including its weights and the optimizer
@@ -164,7 +163,7 @@ def get_audio_sentiment(path_to_audio_file):
     # final = final.astype(int).flatten()
     # print('prediction flatten: ', final)
 
-    prediction = lb.inverse_transform((prob_index))
+    audio_pol_prediction = lb.inverse_transform((prob_index))
     # print('lb.inverse_transform of prob_index: ', prediction) 
 
     # print('trying to get out list of classes and its probability')
@@ -175,9 +174,9 @@ def get_audio_sentiment(path_to_audio_file):
     class_prob = [(classes[i], prob_list[i]) for i in range(len(classes))]
     # print('classes and its probability: ', class_prob)
 
-    print({'label': prediction, 'probability': class_prob})
+    print({'label': audio_pol_prediction, 'probability': class_prob})
 
-    return prediction
+    return audio_pol_prediction
     
 def main():
     # recorder = Recorder("speech.wav")
@@ -214,7 +213,7 @@ def main():
     print('text sentiment emotion is: ', text_sentiment_emotion)
 
     print('Let\'s predict your audio sentiment: ')
-    audio_sentiment_polarity = get_audio_sentiment(audio)
+    audio_sentiment_polarity = get_audio_sentiment_pol(audio)
 
     print('In summary:\n')
     print('This is what you said: ', text)
