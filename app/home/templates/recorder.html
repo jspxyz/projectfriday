@@ -36,14 +36,9 @@
 <!--trying to get button to do prediction-->
 <div class="row">
     <div class="col-md-6">
-        <form action="/predict" method ="post">
-            <div id= "btn-capture-image" class="btn btn-lg btn-primary">Predict Now</div>
-        </form>
-    </div>
-    <div class="col-md-6">
         <div id="results">
             <h3 id='class-result'>Predictions:</h3>
-
+                <div style="display:none;" id="spinner" class="loader">Loading...</div>
                 <div id="results-prediction">
                     <p id="prediction"></p>
                     <p id="probs"></p>

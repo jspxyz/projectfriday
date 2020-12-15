@@ -36,7 +36,11 @@ function gotBuffers(buffers) {
 /* 20201212 1604 - changed /audio to /recorder */
 function doneEncoding(soundBlob) {
     // fetch('/audio', {method: "POST", body: soundBlob}).then(response => $('#output').text(response.text()))
+    
+    var spinner = document.getElementById("spinner");
+    spinner.style.display = "block";
     fetch('/recorder', {method: "POST", body: soundBlob}).then(response => response.text().then(text => {
+        spinner.style.display = "none";
         res = JSON.parse(text);
         document.getElementById('output').value = res[0];
         console.log(res[1]);
