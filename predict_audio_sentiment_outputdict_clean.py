@@ -101,7 +101,7 @@ def get_text_sentiment(text):
 # function to get audio sentiment
 # code pulled from predict_audio_sentiment_mfcc40
 def get_audio_sentiment_pol(path_to_audio_file):
-    print('Loading audio sentiment model...')
+    print('Loading audio sentiment polarity model...')
     # loading model with just h5
     # Recreate the exact same model, including its weights and the optimizer
     model = tf.keras.models.load_model('./models_saved/model_d_conv1d_mfcc40_0dn_us_pol_b32.h5')
@@ -140,31 +140,45 @@ def get_audio_sentiment_pol(path_to_audio_file):
                             #  batch_size=16, 
                             #  verbose=1)
 
-    # print('audio_pol_probability looks like: ', audio_pol_probability)
-
-    # with open('./Data_Array_Storage/labels_mfcc40_pol_0dn_us.pkl', 'rb') as f:
-    #     lb = pickle.load(f)
-
-    # # print('label pickle file is: ', lb)
-
-    # classes = lb.classes_
-
-    # # print('label classes: ', classes)
-    # # Get the final predicted label
-    # prob_index = audio_pol_probability.argmax(axis=1) # this outputs the highest index - example: [1]
-
-    # audio_pol_prediction = lb.inverse_transform((prob_index))
-
-    # # print('step 1 is to get probabilty list')
-    # audio_pol_prob_list = audio_pol_probability[0].tolist()
-    # # print('audio_pol_prob_list is: ', audio_pol_prob_list)
-
-    # class_prob = [(classes[i], audio_pol_prob_list[i]) for i in range(len(classes))]
-    # print('classes and its audio_pol_probability: ', class_prob)
-
-    # print({'label': audio_pol_prediction, 'audio_pol_probability': class_prob})
-
     return audio_pol_probability
+
+# function to get audio sentiment
+# code pulled from predict_audio_sentiment_mfcc40
+def get_audio_sentiment_emo(path_to_audio_file):
+    print('Loading audio sentiment emotion model...')
+    # loading model with just h5
+    # Recreate the exact same model, including its weights and the optimizer
+    model = tf.keras.models.load_model('./models_saved/model_d_conv1d_mfcc40_0dn_us_emo_b32.h5')
+
+    audio = path_to_audio_file
+
+    print('Making audio emotion prediction...')
+    # convert into librosa
+    # data, sampling_rate = librosa.load(audio)
+
+    # Transform the file so we can apply the predictions
+    X, sample_rate = librosa.load(audio,
+                                res_type='kaiser_best',
+                                duration=2.5,
+                                sr=44100,
+                                offset=0.5
+                                )
+
+
+    mfccs = librosa.feature.mfcc(y=X, 
+                                sr=sample_rate,
+                                n_mfcc=40)
+
+    mfccs = np.moveaxis(mfccs, 0, -1)
+
+    mfccs = np.expand_dims(mfccs, axis=0)
+
+    audio_emo_probability = model.predict(mfccs)
+                            #  batch_size=16, 
+                            #  verbose=1)
+
+    return audio_emo_probability
+
     
 def main():
     # recorder = Recorder("speech.wav")
@@ -182,6 +196,7 @@ def main():
 
     # print('-'*10)
     # print('This is the Text Section')
+    # assigning text
     text = s2t_results['results'][0]['alternatives'][0]['transcript']
     # text_confidence = s2t_results['results'][0]['alternatives'][0]['confidence']
     # print("Text: " + text + "\n")
@@ -189,27 +204,13 @@ def main():
     
     # print('-'*10)
     print("Analyzing text sentiment...\n")
+    # this is the text sentiment results
     text_sentiment_results = get_text_sentiment(text)
     # print('The text sentiment results are: ', text_sentiment_results)
 
-    # text_sentiment_polarity = text_sentiment_results['keywords'][0]['sentiment']['label']
-    # print('text sentiment polarity is: ', text_sentiment_polarity)
-    # text_sentiment_emotion_dict = text_sentiment_results['keywords'][0]['emotion']
-    # text_sentiment_emotion = max(text_sentiment_emotion_dict, key=text_sentiment_emotion_dict.get)
-    # print('text sentiment emotion is: ', text_sentiment_emotion)
-
-    # print('Let\'s predict your audio sentiment: ')
-    # audio_sentiment_polarity = get_audio_sentiment_pol(audio)
-
-    # print('In summary:\n')
-    # print('This is what you said: ', text)
-    # print('Your text sentiment polarity is: ', text_sentiment_polarity)
-    # print('Your text sentiment emotion is: ', text_sentiment_emotion)
-    # print('Your audio sentiment polarity is: ', audio_sentiment_polarity)
-
     # saving text results to dictionary
     text = s2t_results['results'][0]['alternatives'][0]['transcript']
-    results_dict['text'] = text
+    results_dict['text_content'] = text
     results_dict['text_confidence'] = s2t_results['results'][0]['alternatives'][0]['confidence']
 
     # saving text sentiment results to dictionary
@@ -222,41 +223,79 @@ def main():
     results_dict['text_emotion'] = emotion_max
     results_dict['text_emotion_prob'] = text_sentiment_results['keywords'][0]['emotion']
 
-    # saving audio sentiment to dictionary
-    print('audio sentiment analysis: ')
+    ###### saving audio sentiment polarity to dictionary #####
+    print('audio sentiment polarity analysis: ')
     with open('./Data_Array_Storage/labels_mfcc40_pol_0dn_us.pkl', 'rb') as f:
-        lb = pickle.load(f)
+        audio_pol_lb = pickle.load(f)
 
-    classes = lb.classes_
+    audio_pol_classes = audio_pol_lb.classes_
 
     audio_pol_probability = get_audio_sentiment_pol(audio)
 
-    # print('label classes: ', classes)
+    # print('label audio_pol_classes: ', audio_pol_classes)
     # Get the final predicted label
     audio_pol_prob_index = audio_pol_probability.argmax(axis=1) # this outputs the highest index - example: [1]
     # print('audio_pol_probability.argmax: ', audio_pol_prob_index)
 
-    # pred_label = classes[audio_pol_prob_index]
-    # print('classes[audio_pol_prob_index]: ', pred_label)
+    # pred_label = audio_pol_classes[audio_pol_prob_index]
+    # print('audio_pol_classes[audio_pol_prob_index]: ', pred_label)
 
     # final = final.astype(int).flatten()
     # print('prediction flatten: ', final)
 
-    audio_pol_prediction = lb.inverse_transform((audio_pol_prob_index))
-    # print('lb.inverse_transform of audio_pol_prob_index: ', prediction) 
+    audio_pol_prediction = audio_pol_lb.inverse_transform((audio_pol_prob_index))
+    # print('audio_pol_lb.inverse_transform of audio_pol_prob_index: ', prediction) 
 
-    # print('trying to get out list of classes and its audio_pol_probability')
+    # print('trying to get out list of audio_pol_classes and its audio_pol_probability')
     # print('step 1 is to get probabilty list')
     audio_pol_prob_list = audio_pol_probability[0].tolist()
     # print('audio_pol_prob_list is: ', audio_pol_prob_list)
 
-    audio_pol_class_prob = [(classes[i], audio_pol_prob_list[i]) for i in range(len(classes))]
-    # print('classes and its audio_pol_probability: ', audio_pol_class_prob)
+    audio_pol_class_prob = [(audio_pol_classes[i], audio_pol_prob_list[i]) for i in range(len(audio_pol_classes))]
+    # print('audio_pol_classes and its audio_pol_probability: ', audio_pol_class_prob)
 
     # print({'label': audio_pol_prediction, 'audio_pol_probability': audio_pol_class_prob})
 
     results_dict['audio_polarity'] = audio_pol_prediction[0]
     results_dict['audio_polarity_prob'] = dict(audio_pol_class_prob)
+    ####### end audio sentiment polarity section #######
+
+    ####### start audio sentiment emotion section ######
+    # saving audio sentiment emotion to dictionary
+    print('audio sentiment emotion analysis: ')
+    with open('./Data_Array_Storage/labels_mfcc40_emo_0dn_us.pkl', 'rb') as f:
+        audio_emo_lb = pickle.load(f)
+
+    audio_emo_classes = audio_emo_lb.classes_
+
+    audio_emo_probability = get_audio_sentiment_emo(audio)
+
+    # print('label audio_emo_classes: ', audio_emo_classes)
+    # Get the final predicted label
+    audio_emo_prob_index = audio_emo_probability.argmax(axis=1) # this outputs the highest index - example: [1]
+    # print('audio_emo_probability.argmax: ', audio_emo_prob_index)
+
+    # pred_label = audio_emo_classes[audio_emo_prob_index]
+    # print('audio_emo_classes[audio_emo_prob_index]: ', pred_label)
+
+    # final = final.astype(int).flatten()
+    # print('prediction flatten: ', final)
+
+    audio_emo_prediction = audio_emo_lb.inverse_transform((audio_emo_prob_index))
+    # print('audio_emo_lb.inverse_transform of audio_emo_prob_index: ', prediction) 
+
+    # print('trying to get out list of audio_emo_classes and its audio_emo_probability')
+    # print('step 1 is to get probabilty list')
+    audio_emo_prob_list = audio_emo_probability[0].tolist()
+    # print('audio_emo_prob_list is: ', audio_emo_prob_list)
+
+    audio_emo_class_prob = [(audio_emo_classes[i], audio_emo_prob_list[i]) for i in range(len(audio_emo_classes))]
+    # print('audio_emo_classes and its audio_emo_probability: ', audio_emo_class_prob)
+
+    # print({'label': audio_emo_prediction, 'audio_emo_probability': audio_emo_class_prob})
+
+    results_dict['audio_emotion'] = audio_emo_prediction[0]
+    results_dict['audio_emotion_prob'] = dict(audio_emo_class_prob)
 
     print('this is the final dictionary output')
     print(results_dict)

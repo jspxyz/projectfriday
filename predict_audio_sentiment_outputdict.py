@@ -228,7 +228,7 @@ def main():
 
     # saving text results to dictionary
     text = s2t_results['results'][0]['alternatives'][0]['transcript']
-    results_dict['text'] = text
+    results_dict['text_content'] = text
     results_dict['text_confidence'] = s2t_results['results'][0]['alternatives'][0]['confidence']
 
     # saving text sentiment results to dictionary

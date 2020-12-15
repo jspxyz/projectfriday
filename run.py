@@ -106,7 +106,7 @@ def audio():
 
         # saving text results to dictionary
     text = s2t_results['results'][0]['alternatives'][0]['transcript']
-    results_dict['text'] = text
+    results_dict['text_content'] = text
     results_dict['text_confidence'] = s2t_results['results'][0]['alternatives'][0]['confidence']
 
     # saving text sentiment results to dictionary
@@ -119,12 +119,12 @@ def audio():
     results_dict['text_emotion'] = emotion_max
     results_dict['text_emotion_prob'] = text_sentiment_results['keywords'][0]['emotion']
 
-    # saving audio sentiment to dictionary
-    print('audio sentiment analysis: ')
+    # saving audio sentiment polarity to dictionary
+    print('audio sentiment polarity analysis: ')
     with open('./Data_Array_Storage/labels_mfcc40_pol_0dn_us.pkl', 'rb') as f:
-        lb = pickle.load(f)
+        audio_pol_lb = pickle.load(f)
 
-    classes = lb.classes_
+    audio_pol_classes = audio_pol_lb.classes_
 
     audio_pol_probability = get_audio_sentiment_pol(audio)
 
@@ -132,13 +132,35 @@ def audio():
     audio_pol_prob_index = audio_pol_probability.argmax(axis=1) # this outputs the highest index - example: [1]
 
 
-    audio_pol_prediction = lb.inverse_transform((audio_pol_prob_index))
+    audio_pol_prediction = audio_pol_lb.inverse_transform((audio_pol_prob_index))
     audio_pol_prob_list = audio_pol_probability[0].tolist()
 
-    audio_pol_class_prob = [(classes[i], audio_pol_prob_list[i]) for i in range(len(classes))]
+    audio_pol_class_prob = [(audio_pol_classes[i], audio_pol_prob_list[i]) for i in range(len(audio_pol_classes))]
 
     results_dict['audio_polarity'] = audio_pol_prediction[0]
     results_dict['audio_polarity_prob'] = dict(audio_pol_class_prob)
+
+    ####### start audio sentiment emotion section ######
+    # saving audio sentiment emotion to dictionary
+    print('audio sentiment emotion analysis: ')
+    with open('./Data_Array_Storage/labels_mfcc40_emo_0dn_us.pkl', 'rb') as f:
+        audio_emo_lb = pickle.load(f)
+
+    audio_emo_classes = audio_emo_lb.classes_
+
+    audio_emo_probability = get_audio_sentiment_emo(audio)
+
+    audio_emo_prob_index = audio_emo_probability.argmax(axis=1) # this outputs the highest index - example: [1]
+
+    audio_emo_prediction = audio_emo_lb.inverse_transform((audio_emo_prob_index))
+
+    audio_emo_prob_list = audio_emo_probability[0].tolist()
+
+    audio_emo_class_prob = [(audio_emo_classes[i], audio_emo_prob_list[i]) for i in range(len(audio_emo_classes))]
+
+    results_dict['audio_emotion'] = audio_emo_prediction[0]
+    results_dict['audio_emotion_prob'] = dict(audio_emo_class_prob)
+    ###### end audio sentiment polarity section
 
     print('this is the final dictionary output')
     print(results_dict)
