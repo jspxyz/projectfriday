@@ -1,4 +1,12 @@
-# 
+'''
+Data Processing Step 2
+Pulls MFCC 40 features from each wav file
+Major update on 20201215 1823
+duration is now 5 seconds
+input shape will move from (216, 40) to (431, 40)
+'''
+
+
 # libraries
 import librosa
 import numpy as np
@@ -30,7 +38,7 @@ duration = 5
 sr = 44100
 offset = 0.5
 n_mfcc = 40
-max_len = round(duration * sr / 12)
+max_len = round(duration * sr / 512)
 
 # loop feature extraction over the entire dataset
 for i, path in enumerate(tqdm(ref_data_path.path)):
