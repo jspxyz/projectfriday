@@ -26,23 +26,29 @@ df_features_noise = []
 
 error_list = []
 
+duration = 5
+sr = 44100
+offset = 0.5
+n_mfcc = 40
+max_len = round(duration * sr / 12)
+
 # loop feature extraction over the entire dataset
 for i, path in enumerate(tqdm(ref_data_path.path)):
     try:
     # first load the audio 
         X, sample_rate = librosa.load(path,
                                     res_type='kaiser_best',
-                                    duration=2.5,
-                                    sr=44100,
-                                    offset=0.5)
+                                    duration=duration,
+                                    sr=sr,
+                                    offset=offset)
 
         # take all mfcc as feature
         mfccs = librosa.feature.mfcc(y=X, 
                                     sr= sample_rate, # np.array(sample_rate), 
-                                    n_mfcc=40)
+                                    n_mfcc=n_mfcc)
                                     # axis=0) # removed np.mean
         # If maximum length exceeds mfcc lengths then pad the remaining ones
-        max_len = 216
+        # max_len = duration*sr/512
         if (max_len > mfccs.shape[1]):
             pad_width = max_len - mfccs.shape[1]
             mfccs = np.pad(mfccs, pad_width=((0, 0), (0, pad_width)), mode='constant')
@@ -60,7 +66,7 @@ for i, path in enumerate(tqdm(ref_data_path.path)):
         aug = noise(X)
         aug = librosa.feature.mfcc(y=aug, 
                                    sr= sample_rate, # np.array(sample_rate), 
-                                   n_mfcc=40)
+                                   n_mfcc=n_mfcc)
         
         # If maximum length exceeds mfcc lengths then pad the remaining ones
         if (max_len > aug.shape[1]):
@@ -96,17 +102,17 @@ for i, path in enumerate(tqdm(ref_data_path.path)):
 
 print('df_features shape: ', np.shape(df_features))
 # saving df_features as pickle file
-with open('./Data_Array_Storage/data_features_mfcc40.pkl', 'wb') as f:
+with open('./Data_Array_Storage/data_features_mfcc40_duration5.pkl', 'wb') as f:
     pickle.dump(df_features, f)
 
 print('df_features_noise shape: ', np.shape(df_features_noise))
 # saving df_features_noise as pickle file
-with open('./Data_Array_Storage/data_features_noise_mfcc40.pkl', 'wb') as f:
+with open('./Data_Array_Storage/data_features_noise_mfcc40_duration5.pkl', 'wb') as f:
     pickle.dump(df_features_noise, f)
 
 print('error_list shape: ', np.shape(error_list))
 # saving df_features_noise as pickle file
-with open('./Data_Array_Storage/error_list_mfcc40.pkl', 'wb') as f:
+with open('./Data_Array_Storage/error_list_mfcc40_duration5.pkl', 'wb') as f:
     pickle.dump(error_list, f)
 
 # misc. Code
