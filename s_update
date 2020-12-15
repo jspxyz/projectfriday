@@ -3,4 +3,4 @@
 # installs requirements
 
 git pull
-pip install -r requirements.txt --user
+pip install -r requirements.txt
