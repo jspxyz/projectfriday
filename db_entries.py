@@ -7,17 +7,17 @@ Initial code from Kermadec Lab 2.5a
 import sqlite3
 
 # connect to database
-conn = sqlite3.connect('journal.db')
 # conn = sqlite3.connect('journal.db')
+# # conn = sqlite3.connect('journal.db')
 
-# create a cursor
-cur = conn.cursor()
+# # create a cursor
+# cur = conn.cursor()
 
 # example output
 # {'text': "this is a clean version I really hope it's not index out of range of light is it it doesn't ", 'text_confidence': 0.76, 'text_wordcount': 20, 'keywords': 'clean version', 'text_polarity': 'negative', 'text_polarity_prob': {'score': -0.580131, 'label': 'negative'}, 'text_emotion': 'fear', 'text_emotion_prob': {'sadness': 0.09857, 'joy': 0.101424, 'fear': 0.167227, 'disgust': 0.04349, 'anger': 0.015309}, 'audio_polarity': 'neutral', 'audio_polarity_prob': {'negative': 0.03578012436628342, 'neutral': 0.9490557312965393, 'positive': 0.015164160169661045}}
 
 # Create table categories in the database using a function
-def create_journal_entries_table():
+def create_journal_entries_table(conn, cur):
     query = """
         CREATE TABLE IF NOT EXISTS journal_entries (
             je_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -89,6 +89,11 @@ class Journal_Entry:
         """
         val = (self.date, self.text_content, self.text_confidence, self.text_wordcount, self.keywords, self.text_polarity, self.text_polarity_prob, self.text_emotion, self.text_emotion_prob, self.audio_polarity, self.audio_polarity_prob, self.audio_emotion, self.audio_emotion_prob, self.entry_filepath)
         print(query)
+        conn = sqlite3.connect('journal.db')
+
+        # create a cursor
+        cur = conn.cursor()
+
         try:
             cur.execute(query, val)
             self.je_id = cur.lastrowid
@@ -96,5 +101,5 @@ class Journal_Entry:
         except Exception as err:
             print('ERROR BY INSERT:', err)
 
-entry = Journal_Entry(results_dict)
-entry.save_into_db()
+# entry = Journal_Entry(results_dict)
+# entry.save_into_db()

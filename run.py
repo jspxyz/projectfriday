@@ -31,6 +31,10 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson.natural_language_understanding_v1 import Features, KeywordsOptions
 
 from predict_audio_sentiment_outputdict_clean import *
+from db_entries import *
+
+# database stuff
+import sqlite3
 
 # changing system path to import config modeul
 import os, sys
@@ -82,6 +86,9 @@ def audio():
     result = proc.stderr
     result = '\n'.join(result.split("\n")[-4:])
     # predictions = get_audio_sentiment(audio_filepath)
+
+    # saving audio filepath
+    results_dict['entry_filepath'] = audio_filepath
 
     # adding date to dictionary
     results_dict['date'] = timestamp.split('_')[0]
@@ -164,6 +171,16 @@ def audio():
 
     print('this is the final dictionary output')
     print(results_dict)
+
+    # connecting to database
+    conn = sqlite3.connect('journal.db')
+
+    # create a cursor
+    cur = conn.cursor()
+
+    create_journal_entries_table(conn, cur)
+    entry = Journal_Entry(results_dict, conn, cur)
+    entry.save_into_db()
 
     return jsonify([result, results_dict]) #, audio_filepath
     
