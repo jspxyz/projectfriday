@@ -70,6 +70,11 @@ results_dict = {}
 
 filepath = './entries/audio/test_r2_testing.wav'
 
+# from datetime import datetime, timezone
+
+# def utc_to_local(utc_dt):
+#     return utc_dt.replace(tzinfo=timezone.utc).astimezone(tz=None)
+
 # recorder audio section
 @app.route('/recorder', methods=['POST'])
 def audio():
@@ -178,9 +183,15 @@ def audio():
     # create a cursor
     cur = conn.cursor()
 
-    create_journal_entries_table(conn, cur)
-    entry = Journal_Entry(results_dict, conn, cur)
+    create_journal_entries_table(cur)
+    conn.commit()
+
+    entry = Journal_Entry(results_dict, cur)
     entry.save_into_db()
+
+    conn.commit()
+    conn.close()
+
 
     return jsonify([result, results_dict]) #, audio_filepath
     
