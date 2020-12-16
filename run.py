@@ -88,7 +88,7 @@ filepath = './entries/audio/test_r2_testing.wav'
 @app.route('/recorder', methods=['POST'])
 def audio():
     basename = "audio.wav"
-    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = "_".join([timestamp, basename]) # e.g. '20201207_1714_audio'
     savepath = './entries/audio'
     audio_filepath = "/".join([savepath, filename])
