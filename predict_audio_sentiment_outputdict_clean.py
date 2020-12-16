@@ -100,7 +100,7 @@ def get_text_sentiment(text):
 
 # function to get audio sentiment
 # code pulled from predict_audio_sentiment_mfcc40
-def get_audio_sentiment_pol(path_to_audio_file, res_type, duration, sr, offset, n_mfcc):
+def get_audio_sentiment_pol(path_to_audio_file, res_type, duration, sr, offset, n_mfcc, max_len):
     print('Loading audio sentiment polarity model...')
     # loading model with just h5
     # Recreate the exact same model, including its weights and the optimizer
@@ -125,14 +125,37 @@ def get_audio_sentiment_pol(path_to_audio_file, res_type, duration, sr, offset, 
                                 sr=sample_rate,
                                 n_mfcc=n_mfcc)
 
+    # If maximum length exceeds mfcc lengths then pad the remaining ones
+    # max_len = duration*sr/512
+    if (max_len > mfccs.shape[1]):
+        pad_width = max_len - mfccs.shape[1]
+        mfccs = np.pad(mfccs, pad_width=((0, 0), (0, pad_width)), mode='constant')
+
+    # Else cutoff the remaining parts
+    else:
+        mfccs = mfccs[:, :max_len]
+
     mfccs = np.moveaxis(mfccs, 0, -1)
 
+    # Data normalization 
+    # original 
+    with open('./Data_Array_Storage/pol_duration5_axis0_us_mean.pkl', 'rb') as f:
+        mean = pickle.load(f)
+
+    with open('./Data_Array_Storage/pol_duration5_axis0_us_std.pkl', 'rb') as f:
+        std = pickle.load(f)
+
+    mfccs = (mfccs - mean)/std
+
     # print('mfccs looks like: ', mfccs)
-    # print('mfccs shape is: ', mfccs.shape)
+    print('mfccs polarity shape is: ', mfccs.shape)
     # # newdf = pd.DataFrame(data=mfccs).T
 
+    mfccs = np.expand_dims(mfccs, axis=-1)
+    print('mfccs audio polarity expanded shape is: ', mfccs.shape)
+
     mfccs = np.expand_dims(mfccs, axis=0)
-    # print('mfccs expanded shape is: ', mfccs.shape)
+    print('mfccs audio polarity expanded shape in the front is: ', mfccs.shape)
 
     # apply prediction
     # newdf= np.expand_dims(newdf, axis=2)
@@ -144,7 +167,7 @@ def get_audio_sentiment_pol(path_to_audio_file, res_type, duration, sr, offset, 
 
 # function to get audio sentiment
 # code pulled from predict_audio_sentiment_mfcc40
-def get_audio_sentiment_emo(path_to_audio_file, res_type, duration, sr, offset, n_mfcc):
+def get_audio_sentiment_emo(path_to_audio_file, res_type, duration, sr, offset, n_mfcc, max_len):
     print('Loading audio sentiment emotion model...')
     # loading model with just h5
     # Recreate the exact same model, including its weights and the optimizer
@@ -168,10 +191,36 @@ def get_audio_sentiment_emo(path_to_audio_file, res_type, duration, sr, offset, 
     mfccs = librosa.feature.mfcc(y=X, 
                                 sr=sample_rate,
                                 n_mfcc=n_mfcc)
+    
+    # If maximum length exceeds mfcc lengths then pad the remaining ones
+    # max_len = duration*sr/512
+    if (max_len > mfccs.shape[1]):
+        pad_width = max_len - mfccs.shape[1]
+        mfccs = np.pad(mfccs, pad_width=((0, 0), (0, pad_width)), mode='constant')
+
+    # Else cutoff the remaining parts
+    else:
+        mfccs = mfccs[:, :max_len]
 
     mfccs = np.moveaxis(mfccs, 0, -1)
+    print('mfccs audio emotion shape is: ', mfccs.shape)
+
+    # Data normalization 
+    # original 
+    with open('./Data_Array_Storage/emo_duration5_axis0_mean.pkl', 'rb') as f:
+        mean = pickle.load(f)
+
+    with open('./Data_Array_Storage/emo_duration5_axis0_std.pkl', 'rb') as f:
+        std = pickle.load(f)
+
+    mfccs = (mfccs - mean)/std
+    # X_test = (X_test - mean)/std
+
+    mfccs = np.expand_dims(mfccs, axis=-1)
+    print('mfccs audio emotion expanded shape is: ', mfccs.shape)
 
     mfccs = np.expand_dims(mfccs, axis=0)
+    print('mfccs audio emotion expanded shape in the front is: ', mfccs.shape)
 
     audio_emo_probability = model.predict(mfccs)
                             #  batch_size=16, 
@@ -180,134 +229,134 @@ def get_audio_sentiment_emo(path_to_audio_file, res_type, duration, sr, offset, 
     return audio_emo_probability
 
     
-def main():
-    # recorder = Recorder("speech.wav")
-    # record function from test_recorder2.py
-    # returns WAVE_OUTPUT_FILENAME
-    print('The audio filepath is: ', filepath)
-    audio = filepath
+# def main():
+#     # recorder = Recorder("speech.wav")
+#     # record function from test_recorder2.py
+#     # returns WAVE_OUTPUT_FILENAME
+#     print('The audio filepath is: ', filepath)
+#     audio = filepath
 
-    print('This is what you recorded!')
-    os.system("afplay " + audio)
+#     print('This is what you recorded!')
+#     os.system("afplay " + audio)
 
-    print("Transcribing audio....\n")
-    # result = transcribe_audio('speech.wav')
-    s2t_results = transcribe_audio(audio)
+#     print("Transcribing audio....\n")
+#     # result = transcribe_audio('speech.wav')
+#     s2t_results = transcribe_audio(audio)
 
-    # print('-'*10)
-    # print('This is the Text Section')
-    # assigning text
-    text = s2t_results['results'][0]['alternatives'][0]['transcript']
-    # text_confidence = s2t_results['results'][0]['alternatives'][0]['confidence']
-    # print("Text: " + text + "\n")
-    # print("Confidence: " + str(text_confidence) + "\n")
+#     # print('-'*10)
+#     # print('This is the Text Section')
+#     # assigning text
+#     text = s2t_results['results'][0]['alternatives'][0]['transcript']
+#     # text_confidence = s2t_results['results'][0]['alternatives'][0]['confidence']
+#     # print("Text: " + text + "\n")
+#     # print("Confidence: " + str(text_confidence) + "\n")
     
-    # print('-'*10)
-    print("Analyzing text sentiment...\n")
-    # this is the text sentiment results
-    text_sentiment_results = get_text_sentiment(text)
-    # print('The text sentiment results are: ', text_sentiment_results)
+#     # print('-'*10)
+#     print("Analyzing text sentiment...\n")
+#     # this is the text sentiment results
+#     text_sentiment_results = get_text_sentiment(text)
+#     # print('The text sentiment results are: ', text_sentiment_results)
 
-    # saving text results to dictionary
-    text = s2t_results['results'][0]['alternatives'][0]['transcript']
-    results_dict['text_content'] = text
-    results_dict['text_confidence'] = s2t_results['results'][0]['alternatives'][0]['confidence']
+#     # saving text results to dictionary
+#     text = s2t_results['results'][0]['alternatives'][0]['transcript']
+#     results_dict['text_content'] = text
+#     results_dict['text_confidence'] = s2t_results['results'][0]['alternatives'][0]['confidence']
 
-    # saving text sentiment results to dictionary
-    results_dict['text_wordcount'] = len(text.split()) 
-    results_dict['keywords'] = text_sentiment_results['keywords'][0]['text']
-    results_dict['text_polarity'] = text_sentiment_results['keywords'][0]['sentiment']['label']
-    results_dict['text_polarity_prob'] = text_sentiment_results['keywords'][0]['sentiment']
-    emotion_dict = text_sentiment_results['keywords'][0]['emotion']
-    emotion_max = max(emotion_dict, key=emotion_dict.get)
-    results_dict['text_emotion'] = emotion_max
-    results_dict['text_emotion_prob'] = text_sentiment_results['keywords'][0]['emotion']
+#     # saving text sentiment results to dictionary
+#     results_dict['text_wordcount'] = len(text.split()) 
+#     results_dict['keywords'] = text_sentiment_results['keywords'][0]['text']
+#     results_dict['text_polarity'] = text_sentiment_results['keywords'][0]['sentiment']['label']
+#     results_dict['text_polarity_prob'] = text_sentiment_results['keywords'][0]['sentiment']
+#     emotion_dict = text_sentiment_results['keywords'][0]['emotion']
+#     emotion_max = max(emotion_dict, key=emotion_dict.get)
+#     results_dict['text_emotion'] = emotion_max
+#     results_dict['text_emotion_prob'] = text_sentiment_results['keywords'][0]['emotion']
 
-    ###### saving audio sentiment polarity to dictionary #####
-    print('audio sentiment polarity analysis: ')
-    with open('./Data_Array_Storage/labels_mfcc40_pol_0dn_us.pkl', 'rb') as f:
-        audio_pol_lb = pickle.load(f)
+#     ###### saving audio sentiment polarity to dictionary #####
+#     print('audio sentiment polarity analysis: ')
+#     with open('./Data_Array_Storage/labels_mfcc40_pol_0dn_us.pkl', 'rb') as f:
+#         audio_pol_lb = pickle.load(f)
 
-    audio_pol_classes = audio_pol_lb.classes_
+#     audio_pol_classes = audio_pol_lb.classes_
 
-    audio_pol_probability = get_audio_sentiment_pol(audio)
+#     audio_pol_probability = get_audio_sentiment_pol(audio)
 
-    # print('label audio_pol_classes: ', audio_pol_classes)
-    # Get the final predicted label
-    audio_pol_prob_index = audio_pol_probability.argmax(axis=1) # this outputs the highest index - example: [1]
-    # print('audio_pol_probability.argmax: ', audio_pol_prob_index)
+#     # print('label audio_pol_classes: ', audio_pol_classes)
+#     # Get the final predicted label
+#     audio_pol_prob_index = audio_pol_probability.argmax(axis=1) # this outputs the highest index - example: [1]
+#     # print('audio_pol_probability.argmax: ', audio_pol_prob_index)
 
-    # pred_label = audio_pol_classes[audio_pol_prob_index]
-    # print('audio_pol_classes[audio_pol_prob_index]: ', pred_label)
+#     # pred_label = audio_pol_classes[audio_pol_prob_index]
+#     # print('audio_pol_classes[audio_pol_prob_index]: ', pred_label)
 
-    # final = final.astype(int).flatten()
-    # print('prediction flatten: ', final)
+#     # final = final.astype(int).flatten()
+#     # print('prediction flatten: ', final)
 
-    audio_pol_prediction = audio_pol_lb.inverse_transform((audio_pol_prob_index))
-    # print('audio_pol_lb.inverse_transform of audio_pol_prob_index: ', prediction) 
+#     audio_pol_prediction = audio_pol_lb.inverse_transform((audio_pol_prob_index))
+#     # print('audio_pol_lb.inverse_transform of audio_pol_prob_index: ', prediction) 
 
-    # print('trying to get out list of audio_pol_classes and its audio_pol_probability')
-    # print('step 1 is to get probabilty list')
-    audio_pol_prob_list = audio_pol_probability[0].tolist()
-    # print('audio_pol_prob_list is: ', audio_pol_prob_list)
+#     # print('trying to get out list of audio_pol_classes and its audio_pol_probability')
+#     # print('step 1 is to get probabilty list')
+#     audio_pol_prob_list = audio_pol_probability[0].tolist()
+#     # print('audio_pol_prob_list is: ', audio_pol_prob_list)
 
-    audio_pol_class_prob = [(audio_pol_classes[i], audio_pol_prob_list[i]) for i in range(len(audio_pol_classes))]
-    # print('audio_pol_classes and its audio_pol_probability: ', audio_pol_class_prob)
+#     audio_pol_class_prob = [(audio_pol_classes[i], audio_pol_prob_list[i]) for i in range(len(audio_pol_classes))]
+#     # print('audio_pol_classes and its audio_pol_probability: ', audio_pol_class_prob)
 
-    # print({'label': audio_pol_prediction, 'audio_pol_probability': audio_pol_class_prob})
+#     # print({'label': audio_pol_prediction, 'audio_pol_probability': audio_pol_class_prob})
 
-    results_dict['audio_polarity'] = audio_pol_prediction[0]
-    results_dict['audio_polarity_prob'] = dict(audio_pol_class_prob)
-    ####### end audio sentiment polarity section #######
+#     results_dict['audio_polarity'] = audio_pol_prediction[0]
+#     results_dict['audio_polarity_prob'] = dict(audio_pol_class_prob)
+#     ####### end audio sentiment polarity section #######
 
-    ####### start audio sentiment emotion section ######
-    # saving audio sentiment emotion to dictionary
-    print('audio sentiment emotion analysis: ')
-    with open('./Data_Array_Storage/labels_mfcc40_emo_0dn_us.pkl', 'rb') as f:
-        audio_emo_lb = pickle.load(f)
+#     ####### start audio sentiment emotion section ######
+#     # saving audio sentiment emotion to dictionary
+#     print('audio sentiment emotion analysis: ')
+#     with open('./Data_Array_Storage/labels_mfcc40_emo_0dn_us.pkl', 'rb') as f:
+#         audio_emo_lb = pickle.load(f)
 
-    audio_emo_classes = audio_emo_lb.classes_
+#     audio_emo_classes = audio_emo_lb.classes_
 
-    audio_emo_probability = get_audio_sentiment_emo(audio)
+#     audio_emo_probability = get_audio_sentiment_emo(audio)
 
-    # print('label audio_emo_classes: ', audio_emo_classes)
-    # Get the final predicted label
-    audio_emo_prob_index = audio_emo_probability.argmax(axis=1) # this outputs the highest index - example: [1]
-    # print('audio_emo_probability.argmax: ', audio_emo_prob_index)
+#     # print('label audio_emo_classes: ', audio_emo_classes)
+#     # Get the final predicted label
+#     audio_emo_prob_index = audio_emo_probability.argmax(axis=1) # this outputs the highest index - example: [1]
+#     # print('audio_emo_probability.argmax: ', audio_emo_prob_index)
 
-    # pred_label = audio_emo_classes[audio_emo_prob_index]
-    # print('audio_emo_classes[audio_emo_prob_index]: ', pred_label)
+#     # pred_label = audio_emo_classes[audio_emo_prob_index]
+#     # print('audio_emo_classes[audio_emo_prob_index]: ', pred_label)
 
-    # final = final.astype(int).flatten()
-    # print('prediction flatten: ', final)
+#     # final = final.astype(int).flatten()
+#     # print('prediction flatten: ', final)
 
-    audio_emo_prediction = audio_emo_lb.inverse_transform((audio_emo_prob_index))
-    # print('audio_emo_lb.inverse_transform of audio_emo_prob_index: ', prediction) 
+#     audio_emo_prediction = audio_emo_lb.inverse_transform((audio_emo_prob_index))
+#     # print('audio_emo_lb.inverse_transform of audio_emo_prob_index: ', prediction) 
 
-    # print('trying to get out list of audio_emo_classes and its audio_emo_probability')
-    # print('step 1 is to get probabilty list')
-    audio_emo_prob_list = audio_emo_probability[0].tolist()
-    # print('audio_emo_prob_list is: ', audio_emo_prob_list)
+#     # print('trying to get out list of audio_emo_classes and its audio_emo_probability')
+#     # print('step 1 is to get probabilty list')
+#     audio_emo_prob_list = audio_emo_probability[0].tolist()
+#     # print('audio_emo_prob_list is: ', audio_emo_prob_list)
 
-    audio_emo_class_prob = [(audio_emo_classes[i], audio_emo_prob_list[i]) for i in range(len(audio_emo_classes))]
-    # print('audio_emo_classes and its audio_emo_probability: ', audio_emo_class_prob)
+#     audio_emo_class_prob = [(audio_emo_classes[i], audio_emo_prob_list[i]) for i in range(len(audio_emo_classes))]
+#     # print('audio_emo_classes and its audio_emo_probability: ', audio_emo_class_prob)
 
-    # print({'label': audio_emo_prediction, 'audio_emo_probability': audio_emo_class_prob})
+#     # print({'label': audio_emo_prediction, 'audio_emo_probability': audio_emo_class_prob})
 
-    results_dict['audio_emotion'] = audio_emo_prediction[0]
-    results_dict['audio_emotion_prob'] = dict(audio_emo_class_prob)
+#     results_dict['audio_emotion'] = audio_emo_prediction[0]
+#     results_dict['audio_emotion_prob'] = dict(audio_emo_class_prob)
 
-    print('this is the final dictionary output')
-    print(results_dict)
+#     print('this is the final dictionary output')
+#     print(results_dict)
 
 
 
-if __name__ == '__main__':
-    # dotenv_path = join(dirname(__file__), '.env')
-    # load_dotenv(dotenv_path)
-    main()
-    # try:
-    #     main()
-    # except:
-    #     print("IOError detected, restarting...")
-    #     main()
+# if __name__ == '__main__':
+#     # dotenv_path = join(dirname(__file__), '.env')
+#     # load_dotenv(dotenv_path)
+#     main()
+#     # try:
+#     #     main()
+#     # except:
+#     #     print("IOError detected, restarting...")
+#     #     main()

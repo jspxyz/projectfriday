@@ -100,6 +100,17 @@ print('y_test: ', y_test.shape)
 mean = np.mean(X_train, axis=0)
 std = np.std(X_train, axis=0)
 
+with open('./Data_Array_Storage/emo_duration5_axis0_mean.pkl', 'wb') as f:
+    pickle.dump(mean, f)
+
+with open('./Data_Array_Storage/emo_duration5_axis0_std.pkl', 'wb') as f:
+    pickle.dump(std, f)
+
+print('emo mean: ', mean)
+print('mean shape: ', mean.shape)
+print('emo std: ', std)
+print('std shape: ', std.shape)
+
 # # new methood to data normazilie over each individual
 # # mean = np.mean(np.reshape(X_train, (X_train.shape[0], -1)), axis=1) # (1000,)
 # # std = np.std(np.reshape(X_train, (X_train.shape[0], -1)), axis=1)   # (1000,)
@@ -137,17 +148,6 @@ with open('./Data_Array_Storage/emo_duration5_axis0_y_test.pkl', 'wb') as f:
 # Pickel the lb object for future use 
 with open('./Data_Array_Storage/emo_duration5_axis0_labels.pkl', 'wb') as f:
     pickle.dump(lb, f)
-
-# expanding X_train and X_test dimensions
-# no need to do this for conv1d
-# X_train = np.expand_dims(X_train, axis=-1)
-# X_test = np.expand_dims(X_test, axis=-1)
-
-# print('Shape after X dimension expansion')
-# print('X_train: ', X_train.shape)
-# print('X_test: ', X_test.shape)
-# print('y_train: ', y_train.shape)
-# print('y_test: ', y_test.shape)
 
 # saving X_train and X_test
 with open('./Data_Array_Storage/emo_duration5_axis0_X_train.pkl', 'wb') as f:

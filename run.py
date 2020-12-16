@@ -72,7 +72,7 @@ except KeyError:
 app = create_app( app_config ) 
 Migrate(app, db)
 
-model = tf.keras.models.load_model('./models_saved/model_d_conv1d_mfcc40_0dn_us_pol_b32.h5')
+# model = tf.keras.models.load_model('./models_saved/model_d_conv1d_mfcc40_0dn_us_pol_b32.h5')
 
 # empty dictionary to save results
 results_dict = {}
@@ -147,7 +147,7 @@ def audio():
 
     audio_pol_classes = audio_pol_lb.classes_
 
-    audio_pol_probability = get_audio_sentiment_pol(audio, res_type, duration, sr, offset, n_mfcc)
+    audio_pol_probability = get_audio_sentiment_pol(audio, res_type, duration, sr, offset, n_mfcc, max_len)
 
     # Get the final predicted label
     audio_pol_prob_index = audio_pol_probability.argmax(axis=1) # this outputs the highest index - example: [1]
@@ -169,7 +169,7 @@ def audio():
 
     audio_emo_classes = audio_emo_lb.classes_
 
-    audio_emo_probability = get_audio_sentiment_emo(audio, res_type, duration, sr, offset, n_mfcc)
+    audio_emo_probability = get_audio_sentiment_emo(audio, res_type, duration, sr, offset, n_mfcc, max_len)
 
     audio_emo_prob_index = audio_emo_probability.argmax(axis=1) # this outputs the highest index - example: [1]
 

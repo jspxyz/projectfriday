@@ -100,6 +100,12 @@ print('y_test: ', y_test.shape)
 mean = np.mean(X_train, axis=0)
 std = np.std(X_train, axis=0)
 
+with open('./Data_Array_Storage/pol_duration5_axis0_us_mean.pkl', 'wb') as f:
+    pickle.dump(mean, f)
+
+with open('./Data_Array_Storage/pol_duration5_axis0_us_std.pkl', 'wb') as f:
+    pickle.dump(std, f)
+
 # # new methood to data normazilie over each individual
 # # mean = np.mean(np.reshape(X_train, (X_train.shape[0], -1)), axis=1) # (1000,)
 # # std = np.std(np.reshape(X_train, (X_train.shape[0], -1)), axis=1)   # (1000,)
@@ -142,7 +148,6 @@ with open('./Data_Array_Storage/pol_duration5_axis0_us_labels.pkl', 'wb') as f:
 # no need to do this for conv1d
 # X_train = np.expand_dims(X_train, axis=-1)
 # X_test = np.expand_dims(X_test, axis=-1)
-
 # print('Shape after X dimension expansion')
 # print('X_train: ', X_train.shape)
 # print('X_test: ', X_test.shape)
