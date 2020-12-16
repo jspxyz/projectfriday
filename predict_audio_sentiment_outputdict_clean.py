@@ -93,18 +93,18 @@ def get_text_sentiment(text):
         # url='www.ibm.com',
         # text=' '.join(contents),
         text=text,
-        features=Features(keywords=KeywordsOptions(sentiment=True,emotion=True,limit=2))).get_result()
+        features=Features(keywords=KeywordsOptions(sentiment=True,emotion=True,limit=5))).get_result()
 
     # print(json.dumps(response, indent=2))
     return nlu_response
 
 # function to get audio sentiment
 # code pulled from predict_audio_sentiment_mfcc40
-def get_audio_sentiment_pol(path_to_audio_file):
+def get_audio_sentiment_pol(path_to_audio_file, res_type, duration, sr, offset, n_mfcc):
     print('Loading audio sentiment polarity model...')
     # loading model with just h5
     # Recreate the exact same model, including its weights and the optimizer
-    model = tf.keras.models.load_model('./models_saved/model_d_conv1d_mfcc40_0dn_us_pol_b32.h5')
+    model = tf.keras.models.load_model('./models_saved/model_conv2d_axis0_dur5_pol_b16.h5')
 
     audio = path_to_audio_file
 
@@ -114,16 +114,16 @@ def get_audio_sentiment_pol(path_to_audio_file):
 
     # Transform the file so we can apply the predictions
     X, sample_rate = librosa.load(audio,
-                                res_type='kaiser_best',
-                                duration=2.5,
-                                sr=44100,
-                                offset=0.5
+                                res_type=res_type,
+                                duration=duration,
+                                sr=sr,
+                                offset=offset
                                 )
 
 
     mfccs = librosa.feature.mfcc(y=X, 
                                 sr=sample_rate,
-                                n_mfcc=40)
+                                n_mfcc=n_mfcc)
 
     mfccs = np.moveaxis(mfccs, 0, -1)
 
@@ -144,11 +144,11 @@ def get_audio_sentiment_pol(path_to_audio_file):
 
 # function to get audio sentiment
 # code pulled from predict_audio_sentiment_mfcc40
-def get_audio_sentiment_emo(path_to_audio_file):
+def get_audio_sentiment_emo(path_to_audio_file, res_type, duration, sr, offset, n_mfcc):
     print('Loading audio sentiment emotion model...')
     # loading model with just h5
     # Recreate the exact same model, including its weights and the optimizer
-    model = tf.keras.models.load_model('./models_saved/model_d_conv1d_mfcc40_0dn_us_emo_b32.h5')
+    model = tf.keras.models.load_model('./models_saved/model_conv2d_axis0_dur5_emo_b16.h5')
 
     audio = path_to_audio_file
 
@@ -158,16 +158,16 @@ def get_audio_sentiment_emo(path_to_audio_file):
 
     # Transform the file so we can apply the predictions
     X, sample_rate = librosa.load(audio,
-                                res_type='kaiser_best',
-                                duration=2.5,
-                                sr=44100,
-                                offset=0.5
+                                res_type=res_type,
+                                duration=duration,
+                                sr=sr,
+                                offset=offset
                                 )
 
 
     mfccs = librosa.feature.mfcc(y=X, 
                                 sr=sample_rate,
-                                n_mfcc=40)
+                                n_mfcc=n_mfcc)
 
     mfccs = np.moveaxis(mfccs, 0, -1)
 

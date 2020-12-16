@@ -47,6 +47,14 @@ s2t_api_url = config_s2t_api_url
 nlu_api = config_nlu_api
 nlu_api_url = config_nlu_api_url
 
+# audio variable settings
+res_type = 'kaiser_best'
+duration = 5
+sr = 44100
+offset = 0.5
+n_mfcc = 40
+max_len = round(duration * sr / 512)
+
 # WARNING: Don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True)
 
@@ -134,12 +142,12 @@ def audio():
 
     # saving audio sentiment polarity to dictionary
     print('audio sentiment polarity analysis: ')
-    with open('./Data_Array_Storage/labels_mfcc40_pol_0dn_us.pkl', 'rb') as f:
+    with open('./Data_Array_Storage/pol_duration5_axis0_us_labels.pkl', 'rb') as f:
         audio_pol_lb = pickle.load(f)
 
     audio_pol_classes = audio_pol_lb.classes_
 
-    audio_pol_probability = get_audio_sentiment_pol(audio)
+    audio_pol_probability = get_audio_sentiment_pol(audio, res_type, duration, sr, offset, n_mfcc)
 
     # Get the final predicted label
     audio_pol_prob_index = audio_pol_probability.argmax(axis=1) # this outputs the highest index - example: [1]
@@ -156,12 +164,12 @@ def audio():
     ####### start audio sentiment emotion section ######
     # saving audio sentiment emotion to dictionary
     print('audio sentiment emotion analysis: ')
-    with open('./Data_Array_Storage/labels_mfcc40_emo_0dn_us.pkl', 'rb') as f:
+    with open('./Data_Array_Storage/emo_duration5_axis0_labels.pkl', 'rb') as f:
         audio_emo_lb = pickle.load(f)
 
     audio_emo_classes = audio_emo_lb.classes_
 
-    audio_emo_probability = get_audio_sentiment_emo(audio)
+    audio_emo_probability = get_audio_sentiment_emo(audio, res_type, duration, sr, offset, n_mfcc)
 
     audio_emo_prob_index = audio_emo_probability.argmax(axis=1) # this outputs the highest index - example: [1]
 
