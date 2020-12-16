@@ -4,12 +4,14 @@
 
 <!-- Specific CSS goes HERE  -->
 {% block stylesheets %}
+<link href="https://unpkg.com/tabulator-tables@4.9.1/dist/css/tabulator.min.css" rel="stylesheet">
 <link href="/static/assets/custom.css" rel="stylesheet">
 {% endblock stylesheets %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/skycons/1396634940/skycons.min.js"></script> <!--icons-->
+<script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.9.1/dist/js/tabulator.min.js"></script>
 <script type="text/javascript" src="/static/assets/custom.js"></script> <!--custom.js-->
 {% endblock javascripts %}
 
@@ -40,6 +42,9 @@
             <h3 id='class-result'>Predictions:</h3>
                 <div style="display:none;" id="spinner" class="loader">Loading...</div>
                 <div id="results-prediction">
+                    
+                    <div id="example-table"></div>
+
                     <p id="prediction"></p>
                     <p id="probs"></p>
                 </div>

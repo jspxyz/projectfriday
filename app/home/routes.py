@@ -12,6 +12,13 @@ from jinja2 import TemplateNotFound
 @blueprint.route('/index')
 @login_required
 def index():
+    # create lists
+        # x-axis labels, date
+        # series a data, audio polarity
+        # series b data, text polarity
+        # pie chart lists
+    # create queries here
+
 
     return render_template('index.html')
 
