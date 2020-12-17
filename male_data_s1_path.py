@@ -310,4 +310,4 @@ print(df_male.shape)
 print(df_male.polarity.value_counts())
 print(df_male.emotion.value_counts())
 
-df_male.to_csv("./Data_Array_Storage/Data_male_path.csv",index=False)
+df_male.to_csv("./Data_Array_Storage/male_Data_path.csv",index=False)
