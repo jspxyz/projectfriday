@@ -40,9 +40,6 @@ cur = conn.cursor()
 # print(date_list)
 ##### end date list end
 
-
-
-
 ##### start text polarity score list start
 text_pol_query = pd.read_sql_query('''SELECT text_polarity_prob 
                                         FROM journal_entries''', conn)
@@ -52,17 +49,18 @@ text_pol_forchart = text_pol_table.apply(pd.Series)
 text_pol_forchart.columns = ['text_score', 'label']
 text_pol_score = text_pol_forchart['text_score'].to_list()
 
-#### end text polarity score list done
+print(text_pol_score)
 
+#### end text polarity score list done
 
 
 
 ##### START audio polarity score list
 audio_pol_query = pd.read_sql_query('''SELECT audio_polarity_prob 
                                         FROM journal_entries''', conn)
-audio_df = audio_pol_query['audio_polarity_prob'].map(eval)
-audio_df = audio_df.apply(pd.Series)
-print(audio_df)
+audio_pol = audio_pol_query['audio_polarity_prob'].map(eval)
+audio_pol = audio_pol.apply(pd.Series)
+print(audio_pol)
 
 def get_pol_score(x):
     pol_index = np.argmax(x.values)
@@ -73,9 +71,13 @@ def get_pol_score(x):
     else:
         return x[pol_index]
 
-audio_df['audio_score'] = audio_df.apply(get_pol_score, axis=1)
+audio_pol['audio_score'] = audio_pol.apply(get_pol_score, axis=1)
 
-# mood_data = pd.concat([text_pol_forchart, audio_df], axis=1)
+audio_pol_score = audio_pol['audio_score'].to_list()
+
+print(audio_pol_score)
+
+# mood_data = pd.concat([text_pol_forchart, audio_pol], axis=1)
 # print(mood_data)
 # print(audio_pol_query['audio_polarity_prob'])
 

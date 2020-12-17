@@ -91,11 +91,11 @@ Polarity Classes:
 
 Emotion Classes:
 1. angry       1923 = 15.81%
-2. happy       1923 = 15.81%
+2. disgust     1923 = 15.81%
 3. fear        1923 = 15.81%
-4. disgust     1923 = 15.81%
-5. sad         1923 = 15.81%
-6. neutral     1895 = 15.58%
+4. happy       1923 = 15.81%
+5. neutral     1895 = 15.58%
+6. sad         1923 = 15.81%
 7. surprise     652 = 5.61%
 
 Polarity Gender Classes:

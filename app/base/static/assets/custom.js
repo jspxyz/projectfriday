@@ -1,5 +1,55 @@
 window.addEventListener('load', function () {
 
+    var t = document.getElementById("line-chart-score");
+    if (t) {
+
+        var data_date = document.getElementById("data-date");
+        var audio_score = document.getElementById("data-audio_pol_score");
+        var text_score = document.getElementById("data-text_pol_score");
+
+
+        data_date = data_date.getAttribute("data").replace(/'/g, '"');
+        data_date = JSON.parse(data_date);
+
+        audio_score = JSON.parse(audio_score.getAttribute("data"))
+
+        text_score = JSON.parse(text_score.getAttribute("data"))
+
+
+
+        var i = t.getContext("2d");
+        t.height = 80, new Chart(i, {
+            type: "line",
+            data: {
+                labels: data_date,
+                datasets: [{
+                    label: "Audio Score",
+                    backgroundColor: "rgba(237, 231, 246, 0.5)",
+                    borderColor: "#D56161",
+                    pointBackgroundColor: "#D43535",
+                    borderWidth: 2,
+                    data: audio_score
+                }, {
+                    label: "Text Score",
+                    backgroundColor: "rgba(232, 245, 233, 0.5)",
+                    borderColor: "#2196f3",
+                    pointBackgroundColor: "#1976d2",
+                    borderWidth: 2,
+                    data: text_score
+                }]
+            },
+            options: {
+                legend: {
+                    display: !0
+                }
+            }
+        })
+    }
+
+
+
+    
+
     
     // getLocation_display();
 })

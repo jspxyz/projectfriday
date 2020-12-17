@@ -5,12 +5,16 @@ Copyright (c) 2019 - present AppSeed.us
 
 from app.home import blueprint
 from flask import render_template, redirect, url_for
+from flask import jsonify, request
 from flask_login import login_required, current_user
 from app import login_manager
 from jinja2 import TemplateNotFound
 import numpy as np
 import pandas as pd
 import sqlite3
+
+import requests
+import json
 
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -33,11 +37,19 @@ def index():
     #####
 
     ##### START date list
-    # date = pd.read_sql_query('''SELECT date 
-    #                             FROM journal_entries''', conn)
+    date = pd.read_sql_query('''SELECT date 
+                                FROM journal_entries''', conn)
 
-    # date['date'] = pd.to_datetime(date['date'], yearfirst=True, format='%Y%m%d')
-    # date_list = date['date'].to_list()
+    print(date)
+
+    date['date'] = pd.to_datetime(date['date'], yearfirst=True, format='%Y%m%d')
+    print(date['date'])
+    date_list = date['date'].apply(str).to_list()
+    print(date_list)
+    new_date=[]
+    for date in date_list:
+        new_date.append(date.split()[0])
+    print(new_date)
     ##### END date list
 
     ##### start text polarity score list start
@@ -54,9 +66,9 @@ def index():
     ##### START audio polarity score list
     audio_pol_query = pd.read_sql_query('''SELECT audio_polarity_prob 
                                             FROM journal_entries''', conn)
-    audio_df = audio_pol_query['audio_polarity_prob'].map(eval)
-    audio_df = audio_df.apply(pd.Series)
-    print(audio_df)
+    audio_pol = audio_pol_query['audio_polarity_prob'].map(eval)
+    audio_pol = audio_pol.apply(pd.Series)
+    
 
     def get_pol_score(x):
         pol_index = np.argmax(x.values)
@@ -67,24 +79,36 @@ def index():
         else:
             return x[pol_index]
 
-    audio_df['audio_score'] = audio_df.apply(get_pol_score, axis=1)
+    audio_pol['audio_score'] = audio_pol.apply(get_pol_score, axis=1)
 
+    # create list of audio_pol_score
+    audio_pol_score = audio_pol['audio_score'].to_list()
+    ##### END AUDIO Polarity List
+
+    ##### START Create Heat Map
     # Create figure with secondary y-axis
     # fig = make_subplots(specs=[[{"secondary_y": True}]])
 
     # Add traces: Heatmap and Linechart
-    fig = go.Figure(data=[go.Heatmap(z=text_pol_forchart[['score']].T, colorscale='Blues'),
-                           go.Scatter(x=audio_df['audio_score'].index, y=audio_df['audio_score'].values)])
+    fig = go.Figure(data=[go.Heatmap(z=text_pol_forchart[['score']].T, colorscale='Blues', zmin=-1, zmid=0, zmax=1),
+                           go.Scatter(x=audio_pol['audio_score'].index, y=audio_pol['audio_score'].values)])
 
     fig.update_layout(yaxis_range=[-1,1])
+
+    fig['layout']['plot_bgcolor'] = 'white'
 
     username = 'jswpark'
     api_key = 'rFaFTWTzVKoGmnTfmzhl'
 
     chart_studio.tools.set_credentials_file(username=username, api_key=api_key)
     path = py.plot(fig, filename='demo', auto_open=False)
+    ##### END HEAT MAP
 
-    return render_template('index.html', path=path)
+    print (len(date_list))
+    print(len(text_pol_score))
+    print(len(audio_pol_score))
+
+    return render_template('index.html', path=path, date = new_date, text_pol_score= text_pol_score, audio_pol_score= audio_pol_score)
 
 @blueprint.route('/<template>')
 @login_required
@@ -103,10 +127,7 @@ def route_template(template):
     except:
         return render_template('page-500.html'), 500
 
-import requests
-import json
-from flask import jsonify
-from flask import request
+
  
 # DARKSKY_API_KEY = "1a317f487c751fc2d46d0c17b671300e"
  

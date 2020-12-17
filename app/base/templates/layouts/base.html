@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
     <title>
       Friday | {% block title %}{% endblock %}
     </title>
-
+  
     <style>
       #loader {
         transition: all 0.3s ease-in-out;
