@@ -1,5 +1,8 @@
 window.addEventListener('load', function () {
 
+    // line chart function
+    // sends data to line chart
+    // added on 20201217
     var t = document.getElementById("line-chart-score");
     if (t) {
 
@@ -7,15 +10,12 @@ window.addEventListener('load', function () {
         var audio_score = document.getElementById("data-audio_pol_score");
         var text_score = document.getElementById("data-text_pol_score");
 
-
         data_date = data_date.getAttribute("data").replace(/'/g, '"');
         data_date = JSON.parse(data_date);
 
         audio_score = JSON.parse(audio_score.getAttribute("data"))
 
         text_score = JSON.parse(text_score.getAttribute("data"))
-
-
 
         var i = t.getContext("2d");
         t.height = 80, new Chart(i, {
@@ -45,14 +45,10 @@ window.addEventListener('load', function () {
             }
         })
     }
-
-
-
-    
-
-    
     // getLocation_display();
 })
+
+// WEATHER DASHBOARD CODE BELOW
 
 // function getLocation_display() {
 //     if (navigator.geolocation) {

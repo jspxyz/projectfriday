@@ -101,14 +101,15 @@ def index():
     api_key = 'rFaFTWTzVKoGmnTfmzhl'
 
     chart_studio.tools.set_credentials_file(username=username, api_key=api_key)
-    path = py.plot(fig, filename='demo', auto_open=False)
+    # path = py.plot(fig, filename='demo', auto_open=False)
+    path=""
     ##### END HEAT MAP
 
     print (len(date_list))
     print(len(text_pol_score))
     print(len(audio_pol_score))
 
-    return render_template('index.html', path=path, date = new_date, text_pol_score= text_pol_score, audio_pol_score= audio_pol_score)
+    return render_template('index.html', path = path,date = new_date, text_pol_score= text_pol_score, audio_pol_score= audio_pol_score)
 
 @blueprint.route('/<template>')
 @login_required
