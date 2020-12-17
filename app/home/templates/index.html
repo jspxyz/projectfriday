@@ -23,47 +23,48 @@
             <h4 class="c-grey-900">Gauges</h6>
             <div class="mT-30">
                 <div class="peers mT-20 fxw-nw@lg+ jc-sb ta-c gap-10">
+
                     <div class="peer">
-                        <div class="easy-pie-chart" data-size="80" data-percent="71%" data-bar-color="#f44336">
+                        <div class="easy-pie-chart" data-size="80" data-percent="21" data-bar-color="#2196f3">
                             <span></span>
                         </div>
-                        <h6 class="fsz-sm">Week Entry Streak</h6>
+                        <h6 class="fsz-sm">Grateful Days</h6>
                     </div>
                     <div class="peer">
-                        <div class="easy-pie-chart" data-size="80" data-percent="11" data-bar-color="#2196f3">
+                        <div class="easy-pie-chart" data-size="80" data-percent="71" data-bar-color="#f44336">
+                            <span></span>
+                        </div>
+                        <h6 class="fsz-sm">Week % Streak</h6>
+                    </div>
+                    <div class="peer">
+                        <div class="easy-pie-chart" data-size="80" data-percent="14" data-bar-color="#2196f3">
                             <span></span>
                         </div>
                         <h6 class="fsz-sm">Positive Streak</h6>
                     </div>
                     <div class="peer">
-                        <div class="easy-pie-chart" data-size="80" data-percent="45" data-bar-color="#f44336">
-                            <span></span>
-                        </div>
-                        <h6 class="fsz-sm">Polarity Score Avg</h6>
-                    </div>
-                    <div class="peer">
-                        <div class="easy-pie-chart" data-size="80" data-percent="35" data-bar-color="#ff9800">
+                        <div class="easy-pie-chart" data-size="80" data-percent="48" data-bar-color="#2196f3">
                             <span></span>
                         </div>
                         <h6 class="fsz-sm">Total Entries</h6>
                     </div>
                     <div class="peer">
-                        <div class="easy-pie-chart" data-size="80" data-percent="50" data-bar-color="#2196f3">
+                        <div class="easy-pie-chart" data-size="80" data-percent="52" data-bar-color="#f44336">
                             <span></span>
                         </div>
-                        <h6 class="fsz-sm">Something</h6>
+                        <h6 class="fsz-sm">Audio Polarity Score</h6>
                     </div>
                     <div class="peer">
-                        <div class="easy-pie-chart" data-size="80" data-percent="50" data-bar-color="#2196f3">
+                        <div class="easy-pie-chart" data-size="80" data-percent="61" data-bar-color="#ff9800">
                             <span></span>
                         </div>
-                        <h6 class="fsz-sm">Else</h6>
+                        <h6 class="fsz-sm">Text Polarity Score</h6>
                     </div>
                     <div class="peer">
-                        <div class="easy-pie-chart" data-size="80" data-percent="50" data-bar-color="#2196f3">
+                        <div class="easy-pie-chart" data-size="80" data-percent="55" data-bar-color="#2196f3">
                             <span></span>
                         </div>
-                        <h6 class="fsz-sm">New Purchases</h6>
+                        <h6 class="fsz-sm">Polarity Score</h6>
                     </div>
                 </div>
             </div>
@@ -79,7 +80,7 @@
     <div data="{{audio_pol_score}}" id="data-audio_pol_score"></div>
     <div class="masonry-item col-md-12">
         <div class="bgc-white p-20 bd">
-            <h4 class="c-grey-900">Line Chart</h6>
+            <h4 class="c-grey-900">Polarity Line Chart</h6>
             <div class="mT-30">
                 <canvas id="line-chart-score" height="220"></canvas>
             </div>
@@ -124,19 +125,31 @@
                     <th scope="row">1</th>
                     <td>exercised</td>
                     <td>17</td>
-                    <td>11%</td>
+                    <td>14%</td>
                 </tr>
                 <tr>
                     <th scope="row">2</th>
-                    <td>piano</td>
-                    <td>11</td>
-                    <td>7%</td>
+                    <td>grateful</td>
+                    <td>21</td>
+                    <td>11%</td>
                 </tr>
                 <tr>
                     <th scope="row">3</th>
+                    <td>piano</td>
+                    <td>11</td>
+                    <td>8%</td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
                     <td>coding</td>
                     <td>9</td>
                     <td>6%</td>
+                </tr>
+                <tr>
+                    <th scope="row">5</th>
+                    <td>Kona</td>
+                    <td>9</td>
+                    <td>5%</td>
                 </tr>
                 </tbody>
             </table>
@@ -172,13 +185,25 @@
                     <th scope="row">2</th>
                     <td>mattress</td>
                     <td>11</td>
-                    <td>15%</td>
+                    <td>16%</td>
                 </tr>
                 <tr>
                     <th scope="row">3</th>
+                    <td>tired</td>
+                    <td>9</td>
+                    <td>13%</td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
                     <td>rained</td>
                     <td>5</td>
-                    <td>6%</td>
+                    <td>8%</td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
+                    <td>hot</td>
+                    <td>7</td>
+                    <td>5%</td>
                 </tr>
                 </tbody>
             </table>
