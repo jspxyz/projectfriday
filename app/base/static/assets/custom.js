@@ -46,6 +46,65 @@ window.addEventListener('load', function () {
         })
     }
     // getLocation_display();
+
+
+    var myEle = document.getElementById("calendar");
+    if(myEle){
+        
+        var t = new Date;
+        d = t.getDate();
+        m = t.getMonth();
+        y = t.getFullYear();
+
+        var defaultEvents = [{
+            title: "All Day Event", // keywords
+            start: new Date(y, m, 1), // date
+            desc: "Meetings",
+            bullet: "success"
+        }, {
+            title: "Long Event",
+            start: new Date(y, m, d - 5),
+            end: new Date(y, m, d - 2),
+            desc: "Hangouts",
+            bullet: "success"
+        }, {
+            title: "Repeating Event",
+            start: new Date(y, m, d - 3, 16, 0), // 16 represents hour - Date(year, month, day, hour, minutes)
+            allDay: !1,
+            desc: "Product Checkup",
+            bullet: "warning"
+        }, {
+            title: "Repeating Event",
+            start: new Date(y, m, d + 4, 16, 0),
+            allDay: !1,
+            desc: "Conference",
+            bullet: "danger"
+        }, {
+            title: "Birthday Party",
+            start: new Date(y, m, d + 1, 19, 0),
+            end: new Date(y, m, d + 1, 22, 30),
+            allDay: !1,
+            desc: "Gathering"
+        }, {
+            title: "Click for Google",
+            start: new Date(y, m, 28),
+            end: new Date(y, m, 29),
+            url: "http ://google.com/",
+            desc: "Google",
+            bullet: "success"
+        }];
+
+        $("#calendar").fullCalendar({
+            events: defaultEvents,
+            height: 800,
+            editable: !0,
+            header: {
+                left: "month,agendaWeek,agendaDay",
+                center: "title",
+                right: "today prev,next"
+            }
+        })
+    }
 })
 
 // WEATHER DASHBOARD CODE BELOW
