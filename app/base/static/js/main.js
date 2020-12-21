@@ -88,17 +88,19 @@ function doneEncoding(soundBlob) {
 
         console.log(t_data);
 
+
         //initialize table
-        var table = new Tabulator("#example-table", {
+        var table = new Tabulator("#prediction-table", {
             data:t_data, //assign data to table
             layout:"fitDataStretch",
             // autoColumns:true, //create columns from data field names
             columns:[
-                {title:"Label", field:"label"},
+                {title:"Label", field:"label"}, // formatter:"uppercase", formatter:"bold"
                 {title:"Output", field:"output", formatter:"textarea"}
                 ],
         });
         // document.getElementById("prediction").innerHTML= JSON.stringify(res[1]);
+
     }));
     recIndex++;
 }
