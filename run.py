@@ -51,7 +51,7 @@ nlu_api_url = config_nlu_api_url
 res_type = 'kaiser_best'
 duration = 5
 sr = 44100
-offset = 0.5
+offset = 0.1
 n_mfcc = 40
 max_len = round(duration * sr / 512)
 
@@ -142,7 +142,8 @@ def audio():
 
     # saving audio sentiment polarity to dictionary
     print('audio sentiment polarity analysis: ')
-    with open('./Data_Array_Storage/pol_duration5_axis0_us_labels.pkl', 'rb') as f:
+    # with open('./Data_Array_Storage/pol_duration5_axis0_us_labels.pkl', 'rb') as f:
+    with open('./Data_Array_Storage/male_pol_us_labels.pkl', 'rb') as f:
         audio_pol_lb = pickle.load(f)
 
     audio_pol_classes = audio_pol_lb.classes_
@@ -164,7 +165,8 @@ def audio():
     ####### start audio sentiment emotion section ######
     # saving audio sentiment emotion to dictionary
     print('audio sentiment emotion analysis: ')
-    with open('./Data_Array_Storage/emo_duration5_axis0_labels.pkl', 'rb') as f:
+    # with open('./Data_Array_Storage/emo_duration5_axis0_labels.pkl', 'rb') as f:
+    with open('./Data_Array_Storage/male_emo_labels.pkl', 'rb') as f:
         audio_emo_lb = pickle.load(f)
 
     audio_emo_classes = audio_emo_lb.classes_
@@ -200,6 +202,11 @@ def audio():
 
     conn.commit()
     conn.close()
+
+    results_dict.pop('date')
+    results_dict.pop('entry_filepath')
+
+    # change prediction table here
 
 
     return jsonify([result, results_dict]) #, audio_filepath

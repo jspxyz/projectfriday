@@ -50,17 +50,6 @@ function isObject(obj)
     return obj !== undefined && obj !== null && obj.constructor == Object;
 }
 
-  // var audio_emotion = data["audio_emotion"]
-        // var audio_emotion_prob = data["audio_emotion_prob"]
-        // var audio_polarity = data["audio_polarity"]
-        // var audio_polarity_prob = data["audio_polarity_prob"]
-        // var keywords = data["keywords"]
-        // var text_confidence = data["text_confidence"]
-        // var text_content = data["text_content"]
-        // var text_emotion = data["text_emotion"]
-        // var text_emotion_prob = data["text_emotion_prob"]
-        // var text_polarity = data["text_polarity"]
-        // var text_polarity_prob = data["text_polarity_prob"]
 
 /* 20201212 1604 - changed /audio to /recorder */
 function doneEncoding(soundBlob) {
@@ -84,12 +73,10 @@ function doneEncoding(soundBlob) {
                 for (emotion in output) {
                     if (isNumber(output[emotion])){
                         prob = convert_percentage(output[emotion]);
-                        new_output += emotion + " is " + prob.toString()+" | ";
+                        new_output += emotion + " is " + prob.toString()+"\n";
                     } else {
-                        new_output += emotion + " is " + output[emotion]+" | ";
+                        new_output += emotion + " is " + output[emotion]+"\n";
                     }
-                    
-                    
                 }
                 var new_row = {"label": label, "output": new_output};
             } else {
@@ -99,16 +86,19 @@ function doneEncoding(soundBlob) {
             t_data.push(new_row);  
           }
 
+        console.log(t_data);
+
         //initialize table
         var table = new Tabulator("#example-table", {
             data:t_data, //assign data to table
-            autoColumns:true, //create columns from data field names
+            layout:"fitDataStretch",
+            // autoColumns:true, //create columns from data field names
+            columns:[
+                {title:"Label", field:"label"},
+                {title:"Output", field:"output", formatter:"textarea"}
+                ],
         });
-        
-        
-
         // document.getElementById("prediction").innerHTML= JSON.stringify(res[1]);
-
     }));
     recIndex++;
 }

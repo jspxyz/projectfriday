@@ -104,7 +104,12 @@ def get_audio_sentiment_pol(path_to_audio_file, res_type, duration, sr, offset, 
     print('Loading audio sentiment polarity model...')
     # loading model with just h5
     # Recreate the exact same model, including its weights and the optimizer
-    model = tf.keras.models.load_model('./models_saved/model_conv2d_axis0_dur5_pol_b16.h5')
+    
+    # model for conv2d full dataset
+    # model = tf.keras.models.load_model('./models_saved/model_conv2d_axis0_dur5_pol_b16.h5')
+
+    # model for conv2d males
+    model = tf.keras.models.load_model('./models_saved/male_pol_b16.h5')
 
     audio = path_to_audio_file
 
@@ -139,10 +144,17 @@ def get_audio_sentiment_pol(path_to_audio_file, res_type, duration, sr, offset, 
 
     # Data normalization 
     # original 
-    with open('./Data_Array_Storage/pol_duration5_axis0_us_mean.pkl', 'rb') as f:
+    # with open('./Data_Array_Storage/pol_duration5_axis0_us_mean.pkl', 'rb') as f:
+    #     mean = pickle.load(f)
+
+    # with open('./Data_Array_Storage/pol_duration5_axis0_us_std.pkl', 'rb') as f:
+    #     std = pickle.load(f)
+
+    # mean for males
+    with open('./Data_Array_Storage/male_pol_us_mean.pkl', 'rb') as f:
         mean = pickle.load(f)
 
-    with open('./Data_Array_Storage/pol_duration5_axis0_us_std.pkl', 'rb') as f:
+    with open('./Data_Array_Storage/male_pol_us_std.pkl', 'rb') as f:
         std = pickle.load(f)
 
     mfccs = (mfccs - mean)/std
@@ -171,7 +183,12 @@ def get_audio_sentiment_emo(path_to_audio_file, res_type, duration, sr, offset, 
     print('Loading audio sentiment emotion model...')
     # loading model with just h5
     # Recreate the exact same model, including its weights and the optimizer
-    model = tf.keras.models.load_model('./models_saved/model_conv2d_axis0_dur5_emo_b16.h5')
+    
+    # model for conv2d full dataset
+    # model = tf.keras.models.load_model('./models_saved/model_conv2d_axis0_dur5_emo_b16.h5')
+
+    # model for conv2d male
+    model = tf.keras.models.load_model('./models_saved/male_emo_b16.h5')
 
     audio = path_to_audio_file
 
@@ -206,11 +223,18 @@ def get_audio_sentiment_emo(path_to_audio_file, res_type, duration, sr, offset, 
     print('mfccs audio emotion shape is: ', mfccs.shape)
 
     # Data normalization 
-    # original 
-    with open('./Data_Array_Storage/emo_duration5_axis0_mean.pkl', 'rb') as f:
+    # mean and std for full dataset
+    # with open('./Data_Array_Storage/emo_duration5_axis0_mean.pkl', 'rb') as f:
+    #     mean = pickle.load(f)
+
+    # with open('./Data_Array_Storage/emo_duration5_axis0_std.pkl', 'rb') as f:
+    #     std = pickle.load(f)
+
+    # mean and std for male dataset 
+    with open('./Data_Array_Storage/male_emo_mean.pkl', 'rb') as f:
         mean = pickle.load(f)
 
-    with open('./Data_Array_Storage/emo_duration5_axis0_std.pkl', 'rb') as f:
+    with open('./Data_Array_Storage/male_emo_std.pkl', 'rb') as f:
         std = pickle.load(f)
 
     mfccs = (mfccs - mean)/std

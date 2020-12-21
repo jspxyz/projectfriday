@@ -40,16 +40,16 @@ def index():
     date = pd.read_sql_query('''SELECT date 
                                 FROM journal_entries''', conn)
 
-    print(date)
+    # print(date)
 
     date['date'] = pd.to_datetime(date['date'], yearfirst=True, format='%Y%m%d')
-    print(date['date'])
+    # print(date['date'])
     date_list = date['date'].apply(str).to_list()
-    print(date_list)
+    # print(date_list)
     new_date=[]
     for date in date_list:
         new_date.append(date.split()[0])
-    print(new_date)
+    # print(new_date)
     ##### END date list
 
     ##### start text polarity score list start
@@ -90,26 +90,26 @@ def index():
     # fig = make_subplots(specs=[[{"secondary_y": True}]])
 
     # Add traces: Heatmap and Linechart
-    fig = go.Figure(data=[go.Heatmap(z=text_pol_forchart[['score']].T, colorscale='Blues', zmin=-1, zmid=0, zmax=1),
-                           go.Scatter(x=audio_pol['audio_score'].index, y=audio_pol['audio_score'].values)])
+    # fig = go.Figure(data=[go.Heatmap(z=text_pol_forchart[['score']].T, colorscale='Blues', zmin=-1, zmid=0, zmax=1),
+    #                        go.Scatter(x=audio_pol['audio_score'].index, y=audio_pol['audio_score'].values)])
 
-    fig.update_layout(yaxis_range=[-1,1])
+    # fig.update_layout(yaxis_range=[-1,1])
 
-    fig['layout']['plot_bgcolor'] = 'white'
+    # fig['layout']['plot_bgcolor'] = 'white'
 
-    username = 'jswpark'
-    api_key = 'rFaFTWTzVKoGmnTfmzhl'
+    # username = 'jswpark'
+    # api_key = 'rFaFTWTzVKoGmnTfmzhl'
 
-    chart_studio.tools.set_credentials_file(username=username, api_key=api_key)
-    # path = py.plot(fig, filename='demo', auto_open=False)
-    path=""
+    # chart_studio.tools.set_credentials_file(username=username, api_key=api_key)
+    # # path = py.plot(fig, filename='demo', auto_open=False)
+    # path=""
     ##### END HEAT MAP
 
-    print (len(date_list))
-    print(len(text_pol_score))
-    print(len(audio_pol_score))
+    # print (len(date_list))
+    # print(len(text_pol_score))
+    # print(len(audio_pol_score))
 
-    return render_template('index.html', path = path,date = new_date, text_pol_score= text_pol_score, audio_pol_score= audio_pol_score)
+    return render_template('index.html', date = new_date, text_pol_score= text_pol_score, audio_pol_score= audio_pol_score) # path = path,
 
 @blueprint.route('/<template>')
 @login_required
