@@ -56,43 +56,380 @@ window.addEventListener('load', function () {
         m = t.getMonth();
         y = t.getFullYear();
 
-        var defaultEvents = [{
-            title: "All Day Event", // keywords
-            start: new Date(y, m, 1), // date
-            desc: "Meetings",
-            bullet: "success"
+        var defaultEvents = [
+        // November
+        {
+            title: "piano, exercised", // keywords
+            start: new Date(y, m-1, 1, 16, 0), // date
+            allDay: 1,
+            className: 'positive',
+            // desc: "Meetings",
+            // bullet: "success"
         }, {
-            title: "Long Event",
-            start: new Date(y, m, d - 5),
-            end: new Date(y, m, d - 2),
-            desc: "Hangouts",
-            bullet: "success"
+            title: "coding",
+            start: new Date(y, m-1, 2),
+            // end: new Date(y, m, d - 2),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Hangouts",
+            // bullet: "success"
         }, {
-            title: "Repeating Event",
-            start: new Date(y, m, d - 3, 16, 0), // 16 represents hour - Date(year, month, day, hour, minutes)
-            allDay: !1,
-            desc: "Product Checkup",
-            bullet: "warning"
+            title: "mattress, late",
+            start: new Date(y, m-1, 3, 16, 0), // 16 represents hour - Date(year, month, day, hour, minutes)
+            allDay: 1,
+            className: 'negative',
+            // desc: "Product Checkup",
+            // bullet: "warning"
         }, {
-            title: "Repeating Event",
-            start: new Date(y, m, d + 4, 16, 0),
-            allDay: !1,
-            desc: "Conference",
-            bullet: "danger"
+            title: "sick, headache",
+            start: new Date(y, m-1, 4, 20, 0),
+            allDay: 1,
+            className: 'negative',
+            // desc: "Conference",
+            // bullet: "danger"
         }, {
-            title: "Birthday Party",
-            start: new Date(y, m, d + 1, 19, 0),
-            end: new Date(y, m, d + 1, 22, 30),
-            allDay: !1,
-            desc: "Gathering"
+            title: "cough, sick",
+            start: new Date(y, m-1, 5, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'negative',
+            // desc: "Gathering"
         }, {
-            title: "Click for Google",
-            start: new Date(y, m, 28),
-            end: new Date(y, m, 29),
-            url: "http ://google.com/",
-            desc: "Google",
-            bullet: "success"
-        }];
+            title: "sick, blah",
+            start: new Date(y, m-1, 6),
+            allDay: 1,
+            className: 'negative',
+            // end: new Date(y, m, 29),
+            // url: "https://google.com/",
+            // desc: "Google",
+            // bullet: "success"
+        }, {
+            title: "getting better",
+            start: new Date(y, m-1, 7, 21, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'negative',
+            // desc: "Gathering"
+        }, {
+            title: "kbbq, feel better",
+            start: new Date(y, m-1, 8, 22, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "coding",
+            start: new Date(y, m-1, 9, 20, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "bad model",
+            start: new Date(y, m-1, 10, 21, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'negative',
+            // desc: "Gathering"
+        }, {
+            title: "piano, reading",
+            start: new Date(y, m-1, 11, 20, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "study, coding",
+            start: new Date(y, m-1, 12, 20, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "grateful, sports",
+            start: new Date(y, m-1, 13, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "working model",
+            start: new Date(y, m-1, 14, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "broken model",
+            start: new Date(y, m-1, 15, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'negative',
+            // desc: "Gathering"
+        }, {
+            title: "model works",
+            start: new Date(y, m-1, 16, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "model broken",
+            start: new Date(y, m-1, 17, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'negative',
+            // desc: "Gathering"
+        }, {
+            title: "graduated",
+            start: new Date(y, m-1, 18, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "basketball",
+            start: new Date(y, m-1, 19, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "climbing",
+            start: new Date(y, m-1, 20, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "fixing model",
+            start: new Date(y, m-1, 21, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'negative',
+            // desc: "Gathering"
+        }, {
+            title: "fixing model",
+            start: new Date(y, m-1, 22, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'negative',
+            // desc: "Gathering"
+        }, {
+            title: "fixing model",
+            start: new Date(y, m-1, 23, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'negative',
+            // desc: "Gathering"
+        }, {
+            title: "model fixed",
+            start: new Date(y, m-1, 24, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "model working",
+            start: new Date(y, m-1, 25, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "exercise",
+            start: new Date(y, m-1, 26, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "working out",
+            start: new Date(y, m-1, 27, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "Kona",
+            start: new Date(y, m-1, 28, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "puppies",
+            start: new Date(y, m-1, 29, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "plants",
+            start: new Date(y, m-1, 30, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, 
+        { // December
+            title: "exercise, piano", // keywords
+            start: new Date(y, m, 1, 16, 0), // date
+            allDay: 1,
+            className: 'positive',
+            // desc: "Meetings",
+            // bullet: "success"
+        }, {
+            title: "programming, study",
+            start: new Date(y, m, 2),
+            // end: new Date(y, m, d - 2),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Hangouts",
+            // bullet: "success"
+        }, {
+            title: "traffic, late",
+            start: new Date(y, m, 3, 16, 0), // 16 represents hour - Date(year, month, day, hour, minutes)
+            allDay: 1,
+            className: 'negative',
+            // desc: "Product Checkup",
+            // bullet: "warning"
+        }, {
+            title: "friends, dinner",
+            start: new Date(y, m, 4, 20, 0),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Conference",
+            // bullet: "danger"
+        }, {
+            title: "basketball",
+            start: new Date(y, m, 5, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "golf, bbq",
+            start: new Date(y, m, 6),
+            allDay: 1,
+            className: 'positive',
+            // end: new Date(y, m, 29),
+            // url: "https://google.com/",
+            // desc: "Google",
+            // bullet: "success"
+        }, {
+            title: "couldn't sleep",
+            start: new Date(y, m, 7, 21, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'negative',
+            // desc: "Gathering"
+        }, {
+            title: "mattress, no sleep",
+            start: new Date(y, m, 8, 22, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'negative',
+            // desc: "Gathering"
+        }, {
+            title: "frustrated",
+            start: new Date(y, m, 9, 20, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'negative',
+            // desc: "Gathering"
+        }, {
+            title: "bad model",
+            start: new Date(y, m, 10, 21, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'negative',
+            // desc: "Gathering"
+        }, {
+            title: "piano, reading",
+            start: new Date(y, m, 11, 20, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "study, coding",
+            start: new Date(y, m, 12, 20, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "grateful, sports",
+            start: new Date(y, m, 13, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "working model",
+            start: new Date(y, m, 14, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "broken model",
+            start: new Date(y, m, 15, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'negative',
+            // desc: "Gathering"
+        }, {
+            title: "model works",
+            start: new Date(y, m, 16, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "model broken",
+            start: new Date(y, m, 17, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'negative',
+            // desc: "Gathering"
+        }, {
+            title: "graduated",
+            start: new Date(y, m, 18, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "basketball",
+            start: new Date(y, m, 19, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "climbing",
+            start: new Date(y, m, 20, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, {
+            title: "fixing model",
+            start: new Date(y, m, 21, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'negative',
+            // desc: "Gathering"
+        }, {
+            title: "demo day",
+            start: new Date(y, m, 22, 19, 0),
+            // end: new Date(y, m, d + 1, 22, 30),
+            allDay: 1,
+            className: 'positive',
+            // desc: "Gathering"
+        }, ];
 
         $("#calendar").fullCalendar({
             events: defaultEvents,

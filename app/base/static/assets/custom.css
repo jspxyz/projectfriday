@@ -4,6 +4,28 @@
     margin-left: 8px;
 }
 
+/* change calendar event color */
+.fc-event-container .fc-event.positive {
+  /* border-radius: 0;
+  border: 0; */
+  background-color: #e5f4fd;
+  color: #0f9aee!important;
+  /* font-size: 12px;
+  line-height: 2.5;
+  padding: 0 15px; */
+}
+
+.fc-event-container .fc-event.negative {
+  /* border-radius: 0;
+  border: 0; */
+  background-color: #fde5e5;
+  color: #0f9aee!important;
+  /* font-size: 12px;
+  line-height: 2.5;
+  padding: 0 15px; */
+}
+
+/* Spinner */
 .loader,
 .loader:before,
 .loader:after {
