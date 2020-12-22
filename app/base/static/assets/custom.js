@@ -423,7 +423,7 @@ window.addEventListener('load', function () {
             className: 'negative',
             // desc: "Gathering"
         }, {
-            title: "demo day",
+            title: "basketball, piano",
             start: new Date(y, m, 22, 19, 0),
             // end: new Date(y, m, d + 1, 22, 30),
             allDay: 1,
